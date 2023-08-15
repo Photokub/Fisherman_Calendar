@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Intro Regular');
+    src:
+            url("fonts/Intro-Regular.woff") format("woff"),
+            url("fonts/Intro-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: local('Intro Black');
+    src:
+            url("fonts/Intro-Black.woff") format("woff"),
+            url("fonts/Intro-Black.woff2") format("woff2");
+}
