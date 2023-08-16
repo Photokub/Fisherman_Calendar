@@ -4,8 +4,22 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-
-  border: 1px dashed blue;
-
   margin: 0 ;
+
+  border: 1px dashed yellowgreen;
+
+  transform: rotateY(50deg)
+  scaleY(calc(1 + var(--abs-offset) * -0.4))
+  translateZ(calc(var(--abs-offset) * -30rem))
+  translateX(calc(var(--direction) * -5rem));
+  filter: blur(calc(var(--abs-offset) * 1rem));
+  transition: all 0.3s ease-out;
+
+
+  //transform: rotateY(calc(var(--offset) * 50deg))
+  //scaleY(calc(1 + var(--abs-offset) * -0.4))
+  //translateZ(calc(var(--abs-offset) * -30rem))
+  //translateX(calc(var(--direction) * -5rem));
+  //filter: blur(calc(var(--abs-offset) * 1rem));
+  //transition: all 0.3s ease-out;
 }
