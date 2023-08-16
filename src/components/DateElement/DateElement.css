@@ -9,14 +9,14 @@
   box-sizing: border-box;
   padding: 18px 0;
   color: #ffffff;
-  transform: rotateY(45deg);
+  transform: rotateY(90deg);
 }
 .date-element__number {
   margin: 0;
   padding: 0;
   display: block;
   text-align: center;
-  font-family: Intro ;
+  font-family: Intro;
   font-size: 122px;
   font-style: normal;
   font-weight: 400;
@@ -27,7 +27,7 @@
   padding: 0;
   display: block;
   text-align: center;
-  font-family: Intro ;
+  font-family: Intro;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
