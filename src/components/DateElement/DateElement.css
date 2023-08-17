@@ -9,7 +9,6 @@
   box-sizing: border-box;
   padding: 18px 0;
   color: #ffffff;
-  transform: rotateY(0deg);
 }
 .date-element__number {
   margin: 0;

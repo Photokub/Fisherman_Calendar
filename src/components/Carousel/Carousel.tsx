@@ -5,13 +5,24 @@ import {ForwardButton} from '../ForwardButton/ForwardButton'
 import {DateContainer} from '../DateContainer/DateContainer'
 import './Carousel.css'
 
+interface CarouselPropsTypes {
+    clickForward: any,
+    clickBack: any
+}
 
-export const Carousel:React.FC = () => {
-    return(
+export const Carousel: React.FC<CarouselPropsTypes> = ({
+                                                           clickForward,
+                                                           clickBack
+                                                       }) => {
+    return (
         <section className='carousel'>
-            <BackButton/>
+            <BackButton
+                clickBack={clickBack}
+            />
             <DateContainer/>
-            <ForwardButton/>
+            <ForwardButton
+                clickForward={clickForward}
+            />
         </section>
     )
 }
