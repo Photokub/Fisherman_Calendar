@@ -15,9 +15,9 @@ function App() {
 
     const [daysArray, setDaysArray] = useState([])
     const [activeCard, setActiveCard] = useState(true)
-    const [yesterdayCard, setYesterdayCard] = useState({day:'1', month: 'D'})
-    const [todayCard, setTodayCard] = useState({day:'2', month: 'D'})
-    const [tomorrowCard, setTomorrowCard] = useState({day:'3', month: 'D'})
+    const [yesterdayCard, setYesterdayCard] = useState<IDay>({})
+    const [todayCard, setTodayCard] = useState<IDay>({})
+    const [tomorrowCard, setTomorrowCard] = useState<IDay>({})
 
     useEffect(()=>{
         const dataArray = data as []
@@ -42,6 +42,9 @@ function App() {
 
     return (
         <Carousel
+            todayCard={todayCard}
+            tomorrowCard={tomorrowCard}
+            yesterdayCard={yesterdayCard}
             clickForward={clickForward}
             clickBack={clickBack}
         />
