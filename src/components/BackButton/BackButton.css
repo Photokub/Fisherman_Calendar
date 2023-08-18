@@ -1,0 +1,14 @@
+.back-button {
+  border: dashed 1px darkred;
+  background-color: rgba(0, 0, 0, 0);
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  cursor: pointer;
+}
+.back-button__icon {
+  color: #999999;
+  height: inherit;
+  width: inherit;
+}
+/*# sourceMappingURL=BackButton.css.map */

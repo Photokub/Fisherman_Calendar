@@ -31,6 +31,7 @@ function App() {
         setTomorrowCard(todayCard)
         console.log('Нажата кнопка вперёд')
         //в yesterdayCard пойдёт ближайший сосед массива слева
+        //по клику текущий слайд должен translateX right
     }
 
     function clickBack() {
