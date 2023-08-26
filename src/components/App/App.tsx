@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, createContext} from 'react';
 import './App.css';
 import {Carousel} from "../Carousel/Carousel";
 import {IDay} from "../../types/types";
 import data from '../data/data.json'
+import {SlideContext} from '../../context/SlideContext'
 
 function App() {
 
@@ -13,42 +14,68 @@ function App() {
     // При нажатии назад: сегодня переходит в левую призму, завтра - в центральную. Из левой призмы исчезает вчера, а в правую призму приходит следующий сосед от завтра
     // При нажатии вперед: сегодня переходит в правую призму, завтра - исчезает. Вчера переходит в правую призму, а в левую призму приходит предыдущий сосед от вчера
 
-    const [daysArray, setDaysArray] = useState([])
-    const [activeCard, setActiveCard] = useState(true)
+    const [daysArray, setDaysArray] = useState<[]>([])
+    const [activeCard, setActiveCard] = useState(0)
+    const [currentCard, setCurrentCard] = useState<IDay>({})
     const [yesterdayCard, setYesterdayCard] = useState<IDay>({})
     const [todayCard, setTodayCard] = useState<IDay>({})
     const [tomorrowCard, setTomorrowCard] = useState<IDay>({})
+
+
 
     useEffect(()=>{
         const dataArray = data as []
         setDaysArray(dataArray)
     })
 
+    // function handleCard(card: any){
+    //     if (daysArray.find()){
+    //         setCurrentCard(card)
+    //         console.log(card)
+    //     }
+    // }
+
     console.log(daysArray)
 
-    function clickForward() {
-        setTodayCard(yesterdayCard)
-        setTomorrowCard(todayCard)
+    // function clickForward() {
+    //     setActiveCard(activeCard + 1)
+    //     console.log('Нажата кнопка вперёд')
+    //     console.log(activeCard)
+    //
+    // }
+
+    // function clickBack() {
+    //     setActiveCard(activeCard - 1)
+    //     console.log('Нажата кнопка назад')
+    //     console.log(activeCard)
+    // }
+
+    const clickForward = (): any => {
+        setActiveCard(activeCard + 1)
         console.log('Нажата кнопка вперёд')
-        //в yesterdayCard пойдёт ближайший сосед массива слева
-        //по клику текущий слайд должен translateX right
+        console.log(activeCard)
     }
 
-    function clickBack() {
-        setTodayCard(tomorrowCard)
-        setYesterdayCard(todayCard)
+    const clickBack = (): any => {
+        setActiveCard(activeCard - 1)
         console.log('Нажата кнопка назад')
-        //в tomorrowCard пойдёт ближайший сосед массива справа
+        console.log(activeCard)
     }
 
     return (
+        <SlideContext.Provider value={{
+            clickForward,
+            clickBack,
+            daysArray,
+            activeCard
+        }}>
         <Carousel
-            todayCard={todayCard}
-            tomorrowCard={tomorrowCard}
-            yesterdayCard={yesterdayCard}
             clickForward={clickForward}
             clickBack={clickBack}
+            daysArray={daysArray}
+            activeCard={activeCard}
         />
+        </SlideContext.Provider>
     );
 }
 

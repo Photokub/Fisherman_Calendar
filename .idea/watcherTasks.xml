@@ -25,7 +25,9 @@
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="true" />
       <option name="workingDir" value="$FileDir$" />
-      <envs />
+      <envs>
+        <env name="COMPILE_PARTIAL" value="true" />
+      </envs>
     </TaskOptions>
   </component>
 </project>

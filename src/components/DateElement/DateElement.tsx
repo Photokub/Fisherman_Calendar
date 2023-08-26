@@ -3,16 +3,18 @@ import './DateElement.css';
 import {IDay} from "../../types/types";
 
 interface CurrentDateContainerPropsTypes {
-    todayCard: IDay,
-    tomorrowCard: IDay,
-    yesterdayCard: IDay
+    // todayCard: IDay,
+    // tomorrowCard: IDay,
+    // yesterdayCard: IDay
+    day: any,
+    month: any,
 }
 
-export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({todayCard}) => {
+export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, month}) => {
     return (
         <section className='date-element'>
-            <h1 className='date-element__number'>{todayCard.day}</h1>
-            <h2 className='date-element__month'>{todayCard.month}</h2>
+            <h1 className='date-element__day'>{day}</h1>
+            <h2 className='date-element__month'>{month}</h2>
         </section>
     )
 }

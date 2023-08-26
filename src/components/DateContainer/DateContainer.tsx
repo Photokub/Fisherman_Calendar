@@ -7,29 +7,44 @@ import {YesterdayDateContainer} from "../YesterdayDateContainer/YesterdayDateCon
 import {IDay} from "../../types/types";
 
 interface DateContainerPropsTypes {
-    todayCard: IDay,
-    tomorrowCard: IDay,
-    yesterdayCard: IDay,
+    // todayCard: IDay,
+    // tomorrowCard: IDay,
+    // yesterdayCard: IDay,
+    daysArray: any,
+    activeCard: number;
 }
 
-export const DateContainer:React.FC<DateContainerPropsTypes> = ({todayCard, tomorrowCard, yesterdayCard}) => {
-    return(
+export const DateContainer: React.FC<DateContainerPropsTypes> = ({
+                                                                     // todayCard,
+                                                                     // tomorrowCard,
+                                                                     // yesterdayCard
+                                                                     daysArray,
+                                                                     activeCard
+                                                                 }) => {
+    return (
         <section className='date-container'>
-            <YesterdayDateContainer
-                yesterdayCard={yesterdayCard}
-                todayCard={todayCard}
-                tomorrowCard={tomorrowCard}
-            />
-            <CurrentDateContainer
-                yesterdayCard={yesterdayCard}
-                todayCard={todayCard}
-                tomorrowCard={tomorrowCard}
-            />
-            <TomorrowDateContainer
-                yesterdayCard={yesterdayCard}
-                tomorrowCard={tomorrowCard}
-                todayCard={todayCard}
-            />
+            {daysArray.map((date: any) =>
+
+                <DateElement key={date.day}
+                             day={date.day}
+                             month={date.month}
+                />
+            )}
+            {/*<YesterdayDateContainer*/}
+            {/*    yesterdayCard={yesterdayCard}*/}
+            {/*    todayCard={todayCard}*/}
+            {/*    tomorrowCard={tomorrowCard}*/}
+            {/*/>*/}
+            {/*<CurrentDateContainer*/}
+            {/*    yesterdayCard={yesterdayCard}*/}
+            {/*    todayCard={todayCard}*/}
+            {/*    tomorrowCard={tomorrowCard}*/}
+            {/*/>*/}
+            {/*<TomorrowDateContainer*/}
+            {/*    yesterdayCard={yesterdayCard}*/}
+            {/*    tomorrowCard={tomorrowCard}*/}
+            {/*    todayCard={todayCard}*/}
+            {/*/>*/}
         </section>
     )
 }

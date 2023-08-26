@@ -9,17 +9,20 @@ import {IDay} from "../../types/types";
 interface CarouselPropsTypes {
     clickForward: any,
     clickBack: any,
-    todayCard: IDay,
-    tomorrowCard: IDay,
-    yesterdayCard: IDay,
+    daysArray: [],
+    activeCard: number;
+    // todayCard: IDay,
+    // tomorrowCard: IDay,
+    // yesterdayCard: IDay,
 }
 
 export const Carousel: React.FC<CarouselPropsTypes> = ({
                                                            clickForward,
                                                            clickBack,
-                                                           todayCard,
-                                                           tomorrowCard,
-                                                           yesterdayCard
+                                                           daysArray,
+                                                           activeCard
+                                                           //tomorrowCard,
+                                                           // yesterdayCard
                                                        }) => {
     return (
         <section className='carousel'>
@@ -27,9 +30,8 @@ export const Carousel: React.FC<CarouselPropsTypes> = ({
                 clickBack={clickBack}
             />
             <DateContainer
-                todayCard={todayCard}
-                tomorrowCard={tomorrowCard}
-                yesterdayCard={yesterdayCard}
+                daysArray={daysArray}
+                activeCard={activeCard}
             />
             <ForwardButton
                 clickForward={clickForward}

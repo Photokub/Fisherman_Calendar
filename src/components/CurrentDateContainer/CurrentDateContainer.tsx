@@ -4,19 +4,23 @@ import {DateElement} from "../DateElement/DateElement";
 import {IDay} from "../../types/types";
 
 interface CurrentDateContainerPropsTypes {
-    todayCard: IDay,
-    tomorrowCard: IDay,
-    yesterdayCard: IDay
+    // todayCard: IDay,
+    // tomorrowCard: IDay,
+    // yesterdayCard: IDay
 }
 
-export const CurrentDateContainer:React.FC<CurrentDateContainerPropsTypes> = ({todayCard, tomorrowCard, yesterdayCard}) => {
+export const CurrentDateContainer:React.FC<CurrentDateContainerPropsTypes> = ({
+                                                                                  // todayCard,
+                                                                                  // tomorrowCard,
+                                                                                  // yesterdayCard
+}) => {
     return(
         <section className='CurrentDateContainer'>
-            <DateElement
-                yesterdayCard={yesterdayCard}
-                todayCard={todayCard}
-                tomorrowCard={tomorrowCard}
-            />
+            {/*<DateElement*/}
+            {/*    // yesterdayCard={yesterdayCard}*/}
+            {/*    // todayCard={todayCard}*/}
+            {/*    // tomorrowCard={tomorrowCard}*/}
+            {/*/>*/}
         </section>
     )
 }
