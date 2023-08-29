@@ -1,4 +1,4 @@
-import React from "react";
+import React, {MouseEventHandler} from "react";
 import {DateElement} from "../DateElement/DateElement";
 import {BackButton} from '../BackButton/BackButton'
 import {ForwardButton} from '../ForwardButton/ForwardButton'
@@ -7,34 +7,40 @@ import './Carousel.css'
 import {IDay} from "../../types/types";
 
 interface CarouselPropsTypes {
-    clickForward: any,
-    clickBack: any,
+    //clickForward: any,
+    //clickBack: any,
     daysArray: [],
-    activeCard: number;
+    activeCard: number,
+    changeSlide: any
+    //changeSlide: (direction?: number) => MouseEventHandler<HTMLButtonElement> | undefined,
+    //changeSlide: (event: MouseEvent) => void,
     // todayCard: IDay,
     // tomorrowCard: IDay,
     // yesterdayCard: IDay,
 }
 
 export const Carousel: React.FC<CarouselPropsTypes> = ({
-                                                           clickForward,
-                                                           clickBack,
+                                                           //clickForward,
+                                                           //clickBack,
                                                            daysArray,
-                                                           activeCard
+                                                           activeCard,
+                                                           changeSlide
                                                            //tomorrowCard,
                                                            // yesterdayCard
                                                        }) => {
     return (
         <section className='carousel'>
             <BackButton
-                clickBack={clickBack}
+                //clickBack={clickBack}
+                changeSlide={changeSlide}
             />
             <DateContainer
-                daysArray={daysArray}
-                activeCard={activeCard}
+                //daysArray={daysArray}
+                //activeCard={activeCard}
             />
             <ForwardButton
-                clickForward={clickForward}
+                //clickForward={clickForward}
+                changeSlide={changeSlide}
             />
         </section>
     )

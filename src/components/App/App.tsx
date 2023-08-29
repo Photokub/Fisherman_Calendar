@@ -1,4 +1,4 @@
-import React, {useEffect, useState, createContext} from 'react';
+import React, {useEffect, useState, createContext, MouseEventHandler} from 'react';
 import './App.css';
 import {Carousel} from "../Carousel/Carousel";
 import {IDay} from "../../types/types";
@@ -26,7 +26,8 @@ function App() {
     useEffect(()=>{
         const dataArray = data as []
         setDaysArray(dataArray)
-    })
+        console.log(activeCard)
+    }, [])
 
     // function handleCard(card: any){
     //     if (daysArray.find()){
@@ -50,30 +51,47 @@ function App() {
     //     console.log(activeCard)
     // }
 
-    const clickForward = (): any => {
+    const clickForward = () => {
         setActiveCard(activeCard + 1)
         console.log('Нажата кнопка вперёд')
         console.log(activeCard)
     }
 
-    const clickBack = (): any => {
+    const clickBack = () => {
         setActiveCard(activeCard - 1)
         console.log('Нажата кнопка назад')
         console.log(activeCard)
     }
 
+    const changeSlide = (direction = 1) => {
+        let slideNumber = 0;
+
+        if (activeCard + direction < 0) {
+            slideNumber = daysArray.length - 1;
+        } else {
+            slideNumber = (activeCard + direction) % daysArray.length;
+        }
+
+        setActiveCard(slideNumber);
+    };
+
     return (
         <SlideContext.Provider value={{
+            //clickForward: (direction?: number) => void{},
+            //: (event: MouseEventHandler<HTMLButtonElement>) => void{},
             clickForward,
             clickBack,
+            //clickBack: (direction?: number) => void{},
+            changeSlide: (direction?: number) => void{},
             daysArray,
-            activeCard
+            activeCard,
         }}>
         <Carousel
-            clickForward={clickForward}
-            clickBack={clickBack}
+            //clickForward={clickForward}
+            //clickBack={clickBack}
             daysArray={daysArray}
             activeCard={activeCard}
+            changeSlide={changeSlide}
         />
         </SlideContext.Provider>
     );
