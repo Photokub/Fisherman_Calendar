@@ -5,6 +5,7 @@
   width: 20px;
   padding: 0;
   cursor: pointer;
+  z-index: 1;
 }
 .forward-button__icon {
   color: #999999;

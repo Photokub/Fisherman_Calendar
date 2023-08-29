@@ -26,9 +26,12 @@ export const DateContainer: React.FC<DateContainerPropsTypes> = ({
     const {activeCard, daysArray} = useContext(SlideContext);
 
     return (
-        <section className='date-container' style={{transform: `translateX(-${activeCard * 100}%)`}}>
-            {daysArray.map((date: any) =>
-                <DateElement key={date.day}
+        <section
+            className='date-container'
+            style={{transform: `translateX(-${activeCard * 100}%)`}}
+        >
+            {daysArray.map((date: any, index) =>
+                <DateElement key={index}
                              day={date.day}
                              month={date.month}
                 />

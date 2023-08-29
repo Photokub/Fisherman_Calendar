@@ -4,6 +4,7 @@ import {BackButton} from '../BackButton/BackButton'
 import {ForwardButton} from '../ForwardButton/ForwardButton'
 import {DateContainer} from '../DateContainer/DateContainer'
 import './Carousel.css'
+import '../DateContainer/DateContainer.css'
 import {IDay} from "../../types/types";
 
 interface CarouselPropsTypes {
@@ -34,6 +35,10 @@ export const Carousel: React.FC<CarouselPropsTypes> = ({
                 //clickBack={clickBack}
                 changeSlide={changeSlide}
             />
+            {/*<div className='carousel__view-port'></div>*/}
+
+            {/*здесь нужен родительский контейнер под вьюпорт*/}
+
             <DateContainer
                 //daysArray={daysArray}
                 //activeCard={activeCard}
