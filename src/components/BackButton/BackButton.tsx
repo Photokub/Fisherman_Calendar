@@ -3,15 +3,9 @@ import './BackButton.css'
 import {BiSolidLeftArrow} from 'react-icons/bi'
 import {SlideContext} from "../../context/SlideContext";
 
-interface BackButtonPropsTypes{
-    //clickBack: any,
-    changeSlide: any
-    //changeSlide: (direction?: number) => MouseEventHandler<HTMLButtonElement> | undefined
-}
+interface BackButtonPropsTypes{}
 
-export const BackButton:React.FC<BackButtonPropsTypes> = ({
-                                                              //clickBack
-                                                          }) => {
+export const BackButton:React.FC<BackButtonPropsTypes> = () => {
 
     const { clickBack } = useContext(SlideContext);
 

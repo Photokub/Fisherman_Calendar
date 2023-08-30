@@ -3,16 +3,9 @@ import './ForwardButton.css'
 import {BiSolidRightArrow} from 'react-icons/bi'
 import {SlideContext} from "../../context/SlideContext";
 
-interface ForwardButtonPropsTypes{
-    //clickForward: any,
-    changeSlide: any
-    //changeSlide: (direction?: number) => MouseEventHandler<HTMLButtonElement> | undefined
-}
+interface ForwardButtonPropsTypes{}
 
-export const ForwardButton:React.FC< ForwardButtonPropsTypes> = ({
-                                                                     //clickForward,
-                                                                     changeSlide
-}) => {
+export const ForwardButton:React.FC< ForwardButtonPropsTypes> = () => {
 
     const { clickForward } = useContext(SlideContext);
 

@@ -1,13 +1,10 @@
 .carousel {
-  width: 160px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  border: 1px dashed blue;
   margin: 0 auto;
-  overflow: hidden;
-  position: relative;
+  border: 1px dashed blue;
 }
 /*# sourceMappingURL=Carousel.css.map */
