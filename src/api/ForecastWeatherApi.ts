@@ -1,4 +1,4 @@
-class Api {
+class ForecastWeatherApi {
     private _headers: any;
     private _adress: any;
 
@@ -18,7 +18,7 @@ class Api {
         return res.json();
     }
 
-    getAstroData() {
+    getForecastData() {
         return this._request(`${this._adress}`, {
             method: "GET",
             headers: this._headers,
@@ -26,8 +26,8 @@ class Api {
     }
 }
 
-export const api = new Api({
-    baseUrl: 'https://weatherapi-com.p.rapidapi.com/astronomy.json?q=Moscow',
+export const forecastFeatherApi = new ForecastWeatherApi({
+    baseUrl: 'https://weatherapi-com.p.rapidapi.com/forecast.json?q=Moscow&days=29',
     headers: {
         "content-type": "application/json",
         "Accept": "application/json",

@@ -4,13 +4,17 @@ import {ForwardButton} from '../ForwardButton/ForwardButton'
 import './Carousel.css'
 import {ViewPort} from '../ViewPort/ViewPort'
 
-interface CarouselPropsTypes {}
+interface CarouselPropsTypes {
+    setStyleColor: any,
+}
 
-export const Carousel: React.FC<CarouselPropsTypes> = () => {
+export const Carousel: React.FC<CarouselPropsTypes> = ({setStyleColor}) => {
     return (
         <section className='carousel'>
             <BackButton/>
-            <ViewPort/>
+            <ViewPort
+                setStyleColor={setStyleColor}
+            />
             <ForwardButton/>
         </section>
     )

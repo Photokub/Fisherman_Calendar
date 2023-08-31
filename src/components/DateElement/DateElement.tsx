@@ -1,20 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 import './DateElement.css';
-import {IDay} from "../../types/types";
 
 interface CurrentDateContainerPropsTypes {
-    // todayCard: IDay,
-    // tomorrowCard: IDay,
-    // yesterdayCard: IDay
     day: any,
     month: any,
+    setStyleColor: any,
 }
 
-export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, month}) => {
+export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, month, setStyleColor}) => {
+
     return (
-        <section className='date-element'>
-            <h1 className='date-element__day'>{day}</h1>
-            <h2 className='date-element__month'>{month}</h2>
+        <section className='date-element'
+                 style={{
+                     background: setStyleColor
+                 }}
+        >
+            <h1 className='date-element__day'>{day?.slice(8)}</h1>
+            <h2 className='date-element__month'>{month?.slice(5,7)}</h2>
         </section>
     )
 }
