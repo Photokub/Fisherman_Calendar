@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import './DateElement.css';
 
 interface CurrentDateContainerPropsTypes {
@@ -12,7 +12,7 @@ export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, mont
     return (
         <section className='date-element'
                  style={{
-                     background: setStyleColor
+                     color: setStyleColor,
                  }}
         >
             <h1 className='date-element__day'>{day?.slice(8)}</h1>

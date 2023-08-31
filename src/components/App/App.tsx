@@ -74,7 +74,7 @@ function App() {
         else if (moonPhase === 'Crescent') {
             return '#59cede'
         }
-        else if (moonPhase === 'First Quater') {
+        else if (moonPhase === 'First Quarter') {
             return '#59DE8E'
         }
         else if (moonPhase === 'Waxing Gibbous') {
@@ -86,7 +86,7 @@ function App() {
         else if (moonPhase === 'Waning Gibbous') {
             return '#ffae00'
         }
-        else if (moonPhase === 'Last Quater') {
+        else if (moonPhase === 'Last Quarter') {
             return '#59DE8E'
         }
         else {
