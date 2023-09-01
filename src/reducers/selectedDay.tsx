@@ -1,5 +1,9 @@
-const initialState = 0;
+const initialState = {
+    name: 'Аноним',
+};
 
 export function selectedDayReducer(state = initialState) {
-    return state
+    return state;
 }
+
+console.log(selectedDayReducer)

@@ -6,9 +6,21 @@ import {SlideContext} from '../../context/SlideContext'
 import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
 import {astronomyApi} from "../../api/AstronomyApi";
 import {IAstro} from "../../types/types"
+import { connect } from 'react-redux';
 
+interface App {
+    forecastData: any,
+    daysArray: any,
+    selectedDay: any
+}
 
-function App() {
+const App: React.FC<App> = (
+    {
+        // forecastData,
+        // daysArray,
+        // selectedDay,
+    }
+) => {
 
     const [astroData, setAstroData] = useState<IAstro>(
         {
@@ -109,4 +121,14 @@ function App() {
     );
 }
 
-export default App;
+const mapStateToProps = (store: any) => {
+    console.log(`Это стор: \n ${store}`)
+    return {
+        forecastData: store.forecastData,
+        daysArray: store.daysArray,
+        selectedDay: store.selectedDay,
+        astroData: store.astroData
+    }
+}
+
+export default connect(mapStateToProps)(App);
