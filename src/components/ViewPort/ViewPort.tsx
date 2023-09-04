@@ -1,6 +1,6 @@
 import React from "react";
 import './ViewPort.css'
-import {DateContainer} from "../DateContainer/DateContainer";
+import DateContainer from "../DateContainer/DateContainer";
 
 interface ViewPortPropsTypes {
     setStyleColor: any

@@ -3,7 +3,7 @@ import {createContext, MouseEventHandler} from "react";
 export const SlideContext = createContext({
     clickForward: (event: MouseEventHandler<HTMLButtonElement>) => {},
     clickBack: (event: MouseEventHandler<HTMLButtonElement>) => {},
-    daysArray: [],
+    //daysArray: [],
     selectedDay: 0,
     astroData: {
         'is_moon_up': 0,

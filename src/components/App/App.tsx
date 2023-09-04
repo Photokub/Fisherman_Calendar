@@ -7,18 +7,21 @@ import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
 import {astronomyApi} from "../../api/AstronomyApi";
 import {IAstro} from "../../types/types"
 import { connect } from 'react-redux';
+import {setDaysArray} from '../../actions/DaysArrayAction'
 
 interface App {
     forecastData: any,
     daysArray: any,
-    selectedDay: any
+    selectedDay: any,
+    setDaysArray: ([]) => void
 }
 
 const App: React.FC<App> = (
     {
         // forecastData,
-        // daysArray,
+         daysArray,
         // selectedDay,
+        setDaysArray,
     }
 ) => {
 
@@ -35,7 +38,7 @@ const App: React.FC<App> = (
         }
     )
     const [forecastData, setForecastData] = useState({})
-    const [daysArray, setDaysArray] = useState<[]>([])
+    //const [daysArray, setDaysArray] = useState<[]>([])
     const [selectedDay, setSelectedDay] = useState(0)
 
     useEffect(() => {
@@ -62,7 +65,7 @@ const App: React.FC<App> = (
         console.log(selectedDay)
     }, [])
 
-    console.log(daysArray)
+    //console.log(daysArray)
     console.log(astroData)
     console.log(forecastData)
 
@@ -110,7 +113,7 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             clickForward,
             clickBack,
-            daysArray,
+            //daysArray,
             selectedDay,
             astroData,
         }}>
@@ -131,4 +134,8 @@ const mapStateToProps = (store: any) => {
     }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: (arg0: { type: string; payload?: object; }) => object) => ({
+    setDaysArray: (day: object) => dispatch(setDaysArray(day))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
