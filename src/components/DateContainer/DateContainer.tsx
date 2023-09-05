@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import './DateContainer.css'
 import {DateElement} from "../DateElement/DateElement";
 import {SlideContext} from "../../context/SlideContext";
@@ -18,10 +18,7 @@ const DateContainer: React.FC<DateContainerPropsTypes> = ({
         selectedDay,
     } = useContext(SlideContext);
 
-
-    const daysArray = Array.from(daysArrayObject.days)
-    console.log(daysArray)
-    console.log(daysArrayObject)
+    const daysArray = daysArrayObject.days
 
     return (
         <section
