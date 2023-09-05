@@ -33,6 +33,7 @@ const DateContainer: React.FC<DateContainerPropsTypes> = ({
                 <DateElement key={index}
                              day={date.date}
                              month={date.date}
+                             style={date.astro.moon_phase}
                              setStyleColor={setStyleColor}
                 />
             )}

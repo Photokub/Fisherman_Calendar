@@ -19,7 +19,6 @@ interface App {
 const App: React.FC<App> = (
     {
         // forecastData,
-         daysArray,
         // selectedDay,
         setDaysArray,
     }
@@ -38,7 +37,6 @@ const App: React.FC<App> = (
         }
     )
     const [forecastData, setForecastData] = useState({})
-    //const [daysArray, setDaysArray] = useState<[]>([])
     const [selectedDay, setSelectedDay] = useState(0)
 
     useEffect(() => {
@@ -59,11 +57,11 @@ const App: React.FC<App> = (
         }
     }, [])
 
-    useEffect(() => {
-        const dataArray = data as []
-        setDaysArray(dataArray)
-        console.log(selectedDay)
-    }, [])
+    // useEffect(() => {
+    //     const dataArray = data as []
+    //     setDaysArray(dataArray)
+    //     console.log(selectedDay)
+    // }, [])
 
     //console.log(daysArray)
     console.log(astroData)
@@ -81,16 +79,15 @@ const App: React.FC<App> = (
         console.log(selectedDay)
     }
 
-    const setStyleColor = () => {
-        const moonPhase = astroData.moon_phase
+    const setStyleColor = (moonPhase: any) => {
         if (moonPhase === 'New Moon') {
             return '#ff0000'
         }
-        else if (moonPhase === 'Crescent') {
-            return '#59cede'
+        else if (moonPhase === 'Waxing Crescent') {
+            return '#59deb6'
         }
         else if (moonPhase === 'First Quarter') {
-            return '#59DE8E'
+            return '#02ad4f'
         }
         else if (moonPhase === 'Waxing Gibbous') {
             return '#ffae00'
@@ -102,23 +99,54 @@ const App: React.FC<App> = (
             return '#ffae00'
         }
         else if (moonPhase === 'Last Quarter') {
-            return '#59DE8E'
+            return '#02ad4f'
+        }
+        else if (moonPhase === 'Waning Crescent') {
+            return '#59deb6'
         }
         else {
             return '#8f8b8b'
         }
     }
 
+    // const setStyleColor = () => {
+    //     const moonPhase = astroData.moon_phase
+    //     //const moonPhase = forecastData
+    //     if (moonPhase === 'New Moon') {
+    //         return '#ff0000'
+    //     }
+    //     else if (moonPhase === 'Crescent') {
+    //         return '#59cede'
+    //     }
+    //     else if (moonPhase === 'First Quarter') {
+    //         return '#59DE8E'
+    //     }
+    //     else if (moonPhase === 'Waxing Gibbous') {
+    //         return '#ffae00'
+    //     }
+    //     else if (moonPhase === 'Full Moon') {
+    //         return '#ff0000'
+    //     }
+    //     else if (moonPhase === 'Waning Gibbous') {
+    //         return '#ffae00'
+    //     }
+    //     else if (moonPhase === 'Last Quarter') {
+    //         return '#59DE8E'
+    //     }
+    //     else {
+    //         return '#8f8b8b'
+    //     }
+    // }
+
     return (
         <SlideContext.Provider value={{
             clickForward,
             clickBack,
-            //daysArray,
             selectedDay,
             astroData,
         }}>
             <Carousel
-                setStyleColor = {setStyleColor()}
+                setStyleColor = {setStyleColor}
             />
         </SlideContext.Provider>
     );
