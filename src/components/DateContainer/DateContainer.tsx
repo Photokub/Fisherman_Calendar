@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {ReactNode, useContext} from "react";
 import './DateContainer.css'
 import {DateElement} from "../DateElement/DateElement";
 import {SlideContext} from "../../context/SlideContext";
@@ -7,12 +7,14 @@ import {connect} from "react-redux";
 
 interface DateContainerPropsTypes {
     setStyleColor: any,
+    setRusMonthName: (arg: string) => ReactNode,
     daysArrayObject: any,
 }
 
 const DateContainer: React.FC<DateContainerPropsTypes> = ({
                                                               setStyleColor,
-                                                              daysArrayObject
+                                                              daysArrayObject,
+                                                              setRusMonthName
                                                           }) => {
     const {
         selectedDay,
@@ -35,6 +37,7 @@ const DateContainer: React.FC<DateContainerPropsTypes> = ({
                              month={date.date}
                              style={date.astro.moon_phase}
                              setStyleColor={setStyleColor}
+                             setRusMonthName={setRusMonthName}
                 />
             )}
         </section>

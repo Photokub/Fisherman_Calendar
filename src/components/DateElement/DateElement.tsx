@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import './DateElement.css';
 
 interface CurrentDateContainerPropsTypes {
@@ -6,9 +6,10 @@ interface CurrentDateContainerPropsTypes {
     month: any,
     style: any,
     setStyleColor: any,
+    setRusMonthName: (arg: string) => ReactNode,
 }
 
-export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, month, setStyleColor, style}) => {
+export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, month, setStyleColor, style, setRusMonthName}) => {
 
     return (
         <section className='date-element'
@@ -17,7 +18,7 @@ export const DateElement: React.FC<CurrentDateContainerPropsTypes> = ({day, mont
                  }}
         >
             <h1 className='date-element__day'>{day?.slice(8)}</h1>
-            <h2 className='date-element__month'>{month?.slice(5,7)}</h2>
+            <h2 className='date-element__month'>{setRusMonthName(month?.slice(5,7))}</h2>
         </section>
     )
 }

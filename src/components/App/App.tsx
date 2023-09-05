@@ -69,7 +69,7 @@ const App: React.FC<App> = (
         console.log(selectedDay)
     }
 
-    const setStyleColor = (moonPhase: any) => {
+    const setStyleColor = (moonPhase: string) => {
         if (moonPhase === 'New Moon') {
             return '#ff0000'
         }
@@ -99,6 +99,45 @@ const App: React.FC<App> = (
         }
     }
 
+    const setRusMonthName = (monthNumber: string) => {
+        if (monthNumber === '01') {
+            return 'Января'
+        }
+        else if (monthNumber === '02') {
+            return 'Февраля'
+        }
+        else if (monthNumber === '03') {
+            return 'Марта'
+        }
+        else if (monthNumber === '04') {
+            return 'Апреля'
+        }
+        else if (monthNumber === '05') {
+            return 'Мая'
+        }
+        else if (monthNumber === '06') {
+            return 'Июня'
+        }
+        else if (monthNumber === '07') {
+            return 'Июля'
+        }
+        else if (monthNumber === '08') {
+            return 'Августа'
+        }
+        else if (monthNumber === '09') {
+            return 'Сентября'
+        }
+        else if (monthNumber === '10') {
+            return 'Октября'
+        }
+        else if (monthNumber === '11') {
+            return 'Ноября'
+        }
+        else if (monthNumber === '12') {
+            return 'Декабря'
+        }
+    }
+
     return (
         <SlideContext.Provider value={{
             clickForward,
@@ -108,6 +147,7 @@ const App: React.FC<App> = (
         }}>
             <Carousel
                 setStyleColor = {setStyleColor}
+                setRusMonthName={setRusMonthName}
             />
         </SlideContext.Provider>
     );
