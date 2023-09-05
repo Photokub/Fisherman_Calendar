@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Carousel} from "../Carousel/Carousel";
-import data from '../data/data.json'
 import {SlideContext} from '../../context/SlideContext'
 import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
 import {astronomyApi} from "../../api/AstronomyApi";
@@ -18,8 +17,6 @@ interface App {
 
 const App: React.FC<App> = (
     {
-        // forecastData,
-        // selectedDay,
         setDaysArray,
     }
 ) => {
@@ -57,13 +54,6 @@ const App: React.FC<App> = (
         }
     }, [])
 
-    // useEffect(() => {
-    //     const dataArray = data as []
-    //     setDaysArray(dataArray)
-    //     console.log(selectedDay)
-    // }, [])
-
-    //console.log(daysArray)
     console.log(astroData)
     console.log(forecastData)
 
@@ -108,35 +98,6 @@ const App: React.FC<App> = (
             return '#8f8b8b'
         }
     }
-
-    // const setStyleColor = () => {
-    //     const moonPhase = astroData.moon_phase
-    //     //const moonPhase = forecastData
-    //     if (moonPhase === 'New Moon') {
-    //         return '#ff0000'
-    //     }
-    //     else if (moonPhase === 'Crescent') {
-    //         return '#59cede'
-    //     }
-    //     else if (moonPhase === 'First Quarter') {
-    //         return '#59DE8E'
-    //     }
-    //     else if (moonPhase === 'Waxing Gibbous') {
-    //         return '#ffae00'
-    //     }
-    //     else if (moonPhase === 'Full Moon') {
-    //         return '#ff0000'
-    //     }
-    //     else if (moonPhase === 'Waning Gibbous') {
-    //         return '#ffae00'
-    //     }
-    //     else if (moonPhase === 'Last Quarter') {
-    //         return '#59DE8E'
-    //     }
-    //     else {
-    //         return '#8f8b8b'
-    //     }
-    // }
 
     return (
         <SlideContext.Provider value={{

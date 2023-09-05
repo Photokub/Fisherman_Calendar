@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import './DateContainer.css'
 import {DateElement} from "../DateElement/DateElement";
 import {SlideContext} from "../../context/SlideContext";
