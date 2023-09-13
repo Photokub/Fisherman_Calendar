@@ -5,34 +5,38 @@ import {SlideContext} from '../../context/SlideContext'
 import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
 import {astronomyApi} from "../../api/AstronomyApi";
 import {IAstro} from "../../types/types"
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
+import {setSelectedDay} from "../../actions/SelectedDayAction";
 
 interface App {
     forecastData: any,
     daysArray: any,
     selectedDay: any,
-    setDaysArray: ([]) => void
+    setDaysArray: ([]) => void,
+    setSelectedDayAction: any
 }
 
 const App: React.FC<App> = (
     {
         setDaysArray,
+        setSelectedDayAction,
+        //selectedDay
     }
 ) => {
 
-    const [astroData, setAstroData] = useState<IAstro>(
-        {
-            'is_moon_up': 0,
-            'is_sun_up': 0,
-            'moon_illumination': '',
-            'moon_phase': '',
-            'moonrise': '',
-            'moonset': '',
-            'sunrise': '',
-            'sunset': ''
-        }
-    )
+    // const [astroData, setAstroData] = useState<IAstro>(
+    //     {
+    //         'is_moon_up': 0,
+    //         'is_sun_up': 0,
+    //         'moon_illumination': '',
+    //         'moon_phase': '',
+    //         'moonrise': '',
+    //         'moonset': '',
+    //         'sunrise': '',
+    //         'sunset': ''
+    //     }
+    // )
     const [forecastData, setForecastData] = useState({})
     const [selectedDay, setSelectedDay] = useState(0)
 
@@ -41,10 +45,11 @@ const App: React.FC<App> = (
             const fetchData = async () => {
                 const forecastData = await forecastFeatherApi.getForecastData()
                 const astronomyData = await astronomyApi.getAstroData()
+                console.log(astronomyData)
                 if (!forecastData) {
                     throw new Error('Не удалось получить данные')
                 }
-                setAstroData(astronomyData.astronomy.astro)
+                //setAstroData(astronomyData.astronomy.astro)
                 setForecastData(forecastData.forecast)
                 setDaysArray(forecastData.forecast.forecastday)
             }
@@ -54,8 +59,12 @@ const App: React.FC<App> = (
         }
     }, [])
 
-    console.log(astroData)
+    //console.log(astroData)
     console.log(forecastData)
+
+    //const selectedDayNumber = Object.values(selectedDay)
+    //const selectedDayNumber = selectedDay.day
+    //console.log(selectedDayNumber)
 
     const clickForward = () => {
         setSelectedDay(selectedDay + 1)
@@ -70,71 +79,56 @@ const App: React.FC<App> = (
     }
 
     const setStyleColor = (moonPhase: string) => {
-        if (moonPhase === 'New Moon') {
-            return '#ff0000'
-        }
-        else if (moonPhase === 'Waxing Crescent') {
-            return '#59deb6'
-        }
-        else if (moonPhase === 'First Quarter') {
-            return '#02ad4f'
-        }
-        else if (moonPhase === 'Waxing Gibbous') {
-            return '#ffae00'
-        }
-        else if (moonPhase === 'Full Moon') {
-            return '#ff0000'
-        }
-        else if (moonPhase === 'Waning Gibbous') {
-            return '#ffae00'
-        }
-        else if (moonPhase === 'Last Quarter') {
-            return '#02ad4f'
-        }
-        else if (moonPhase === 'Waning Crescent') {
-            return '#59deb6'
-        }
-        else {
-            return '#8f8b8b'
+        switch (moonPhase) {
+            case 'New Moon':
+                return '#ff0000';
+            case 'Waxing Crescent':
+                return '#c1de59';
+            case 'First Quarter':
+                return '#02ad4f';
+            case 'Waxing Gibbous':
+                return '#ffae00';
+            case 'Full Moon':
+                return '#ff0000';
+            case 'Waning Gibbous':
+                return '#ffae00';
+            case 'Last Quarter' :
+                return '#02ad4f'
+            case 'Waning Crescent':
+                return '#c1de59';
+            default:
+                return '#8f8b8b'
         }
     }
 
     const setRusMonthName = (monthNumber: string) => {
-        if (monthNumber === '01') {
-            return 'Января'
-        }
-        else if (monthNumber === '02') {
-            return 'Февраля'
-        }
-        else if (monthNumber === '03') {
-            return 'Марта'
-        }
-        else if (monthNumber === '04') {
-            return 'Апреля'
-        }
-        else if (monthNumber === '05') {
-            return 'Мая'
-        }
-        else if (monthNumber === '06') {
-            return 'Июня'
-        }
-        else if (monthNumber === '07') {
-            return 'Июля'
-        }
-        else if (monthNumber === '08') {
-            return 'Августа'
-        }
-        else if (monthNumber === '09') {
-            return 'Сентября'
-        }
-        else if (monthNumber === '10') {
-            return 'Октября'
-        }
-        else if (monthNumber === '11') {
-            return 'Ноября'
-        }
-        else if (monthNumber === '12') {
-            return 'Декабря'
+        switch (monthNumber) {
+            case '01':
+                return 'Января';
+            case '02':
+                return 'Февраля';
+            case '03':
+                return 'Марта';
+            case '04':
+                return 'Апреля';
+            case '05':
+                return 'Мая';
+            case '06':
+                return 'Июня';
+            case '07':
+                return 'Июля';
+            case '08':
+                return 'Августа';
+            case '09':
+                return 'Сентября';
+            case '10':
+                return 'Октября';
+            case '11':
+                return 'Ноября';
+            case '12':
+                return 'Декабря';
+            default:
+                return 'Этого месяца'
         }
     }
 
@@ -143,10 +137,10 @@ const App: React.FC<App> = (
             clickForward,
             clickBack,
             selectedDay,
-            astroData,
+            //astroData,
         }}>
             <Carousel
-                setStyleColor = {setStyleColor}
+                setStyleColor={setStyleColor}
                 setRusMonthName={setRusMonthName}
             />
         </SlideContext.Provider>
@@ -163,8 +157,9 @@ const mapStateToProps = (store: any) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: (arg0: { type: string; payload?: object; }) => object) => ({
-    setDaysArray: (day: object) => dispatch(setDaysArray(day))
+const mapDispatchToProps = (dispatch: (arg0: { type: string | number; payload?: object | number; }) => object) => ({
+    setDaysArray: (day: object) => dispatch(setDaysArray(day)),
+    setSelectedDayAction: (day: number) => dispatch(setSelectedDay(day))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
