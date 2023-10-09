@@ -9,13 +9,23 @@ interface CarouselPropsTypes {
     setRusMonthName: (arg: string) => ReactNode,
     clickForward: any,
     clickBack: any,
+    disableBackBtn: boolean,
+    disableForwardBtn: boolean,
 }
 
-export const Carousel: React.FC<CarouselPropsTypes> = ({setStyleColor, setRusMonthName, clickForward, clickBack}) => {
+export const Carousel: React.FC<CarouselPropsTypes> = ({
+                                                           setStyleColor,
+                                                           setRusMonthName,
+                                                           clickForward,
+                                                           clickBack,
+                                                           disableBackBtn,
+                                                           disableForwardBtn
+}) => {
     return (
         <section className='carousel'>
             <BackButton
                 clickBack={clickBack}
+                disableBackBtn={disableBackBtn}
             />
             <ViewPort
                 setStyleColor={setStyleColor}
@@ -23,6 +33,7 @@ export const Carousel: React.FC<CarouselPropsTypes> = ({setStyleColor, setRusMon
             />
             <ForwardButton
                 clickForward={clickForward}
+                disableForwardBtn={disableForwardBtn}
             />
         </section>
     )

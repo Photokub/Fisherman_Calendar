@@ -4,7 +4,6 @@ import {Carousel} from "../Carousel/Carousel";
 import {SlideContext} from '../../context/SlideContext'
 import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
 import {astronomyApi} from "../../api/AstronomyApi";
-import {IAstro} from "../../types/types"
 import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
 import {setSelectedDay} from "../../actions/SelectedDayAction";
@@ -20,26 +19,14 @@ interface App {
 const App: React.FC<App> = (
     {
         setDaysArray,
-        setSelectedDayAction,
-        //selectedDay
+        daysArray,
     }
 ) => {
 
-    // const [astroData, setAstroData] = useState<IAstro>(
-    //     {
-    //         'is_moon_up': 0,
-    //         'is_sun_up': 0,
-    //         'moon_illumination': '',
-    //         'moon_phase': '',
-    //         'moonrise': '',
-    //         'moonset': '',
-    //         'sunrise': '',
-    //         'sunset': ''
-    //     }
-    // )
     const [forecastData, setForecastData] = useState({})
     const [selectedDay, setSelectedDay] = useState(0)
     const [disableBackBtn, setDisableBackBtn] = useState(true)
+    const [disableForwardBtn, setDisableForwardBtn] = useState(false)
 
     useEffect(() => {
         try {
@@ -50,7 +37,6 @@ const App: React.FC<App> = (
                 if (!forecastData) {
                     throw new Error('Не удалось получить данные')
                 }
-                //setAstroData(astronomyData.astronomy.astro)
                 setForecastData(forecastData.forecast)
                 setDaysArray(forecastData.forecast.forecastday)
             }
@@ -60,12 +46,13 @@ const App: React.FC<App> = (
         }
     }, [])
 
-    //console.log(astroData)
     console.log(forecastData)
 
-    //const selectedDayNumber = Object.values(selectedDay)
-    //const selectedDayNumber = selectedDay.day
-    //console.log(selectedDayNumber)
+    useEffect(() => {
+        const arrFromDaysArr = Array.from(Object.values(daysArray.days))
+        selectedDay <= 0 ? setDisableBackBtn(true)  : setDisableBackBtn(false);
+        selectedDay >= arrFromDaysArr.length - 1 ? setDisableForwardBtn(true)  : setDisableForwardBtn(false);
+    })
 
     const clickForward = () => {
         setSelectedDay(selectedDay + 1)
@@ -135,16 +122,15 @@ const App: React.FC<App> = (
 
     return (
         <SlideContext.Provider value={{
-            // clickForward,
-            // clickBack,
             selectedDay,
-            //astroData,
         }}>
             <Carousel
                 clickForward={clickForward}
                 clickBack={clickBack}
                 setStyleColor={setStyleColor}
                 setRusMonthName={setRusMonthName}
+                disableBackBtn={disableBackBtn}
+                disableForwardBtn={disableForwardBtn}
             />
         </SlideContext.Provider>
     );
