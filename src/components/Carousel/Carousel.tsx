@@ -6,18 +6,24 @@ import {ViewPort} from '../ViewPort/ViewPort'
 
 interface CarouselPropsTypes {
     setStyleColor: any,
-    setRusMonthName: (arg: string) => ReactNode
+    setRusMonthName: (arg: string) => ReactNode,
+    clickForward: any,
+    clickBack: any,
 }
 
-export const Carousel: React.FC<CarouselPropsTypes> = ({setStyleColor, setRusMonthName}) => {
+export const Carousel: React.FC<CarouselPropsTypes> = ({setStyleColor, setRusMonthName, clickForward, clickBack}) => {
     return (
         <section className='carousel'>
-            <BackButton/>
+            <BackButton
+                clickBack={clickBack}
+            />
             <ViewPort
                 setStyleColor={setStyleColor}
                 setRusMonthName={setRusMonthName}
             />
-            <ForwardButton/>
+            <ForwardButton
+                clickForward={clickForward}
+            />
         </section>
     )
 }

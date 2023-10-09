@@ -39,6 +39,7 @@ const App: React.FC<App> = (
     // )
     const [forecastData, setForecastData] = useState({})
     const [selectedDay, setSelectedDay] = useState(0)
+    const [disableBackBtn, setDisableBackBtn] = useState(true)
 
     useEffect(() => {
         try {
@@ -134,12 +135,14 @@ const App: React.FC<App> = (
 
     return (
         <SlideContext.Provider value={{
-            clickForward,
-            clickBack,
+            // clickForward,
+            // clickBack,
             selectedDay,
             //astroData,
         }}>
             <Carousel
+                clickForward={clickForward}
+                clickBack={clickBack}
                 setStyleColor={setStyleColor}
                 setRusMonthName={setRusMonthName}
             />
