@@ -7,6 +7,7 @@ import {astronomyApi} from "../../api/AstronomyApi";
 import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
 import {setSelectedDay} from "../../actions/SelectedDayAction";
+import DayStatusBar from "../DayStatusBar/DayStatusBar"
 
 interface App {
     forecastData: any,
@@ -27,6 +28,7 @@ const App: React.FC<App> = (
     const [selectedDay, setSelectedDay] = useState(0)
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
+    const [dayStatus, setDayStatus] = useState('Сегодня')
 
     useEffect(() => {
         try {
@@ -48,14 +50,35 @@ const App: React.FC<App> = (
 
     console.log(forecastData)
 
+    const arrFromDaysArr = Array.from(Object.values(daysArray.days))
+
     useEffect(() => {
-        const arrFromDaysArr = Array.from(Object.values(daysArray.days))
         selectedDay <= 0 ? setDisableBackBtn(true)  : setDisableBackBtn(false);
         selectedDay >= arrFromDaysArr.length - 1 ? setDisableForwardBtn(true)  : setDisableForwardBtn(false);
+        dayStatusHandler(selectedDay)
     })
+
+    const dayStatusHandler = (day: any) => {
+        console.log(day)
+        switch (day) {
+            case 0:
+                console.log(day)
+                return setDayStatus("Сегодня")
+            case 1:
+                console.log(day)
+                return setDayStatus("Завтра")
+            case 2:
+                console.log(day)
+                return setDayStatus("Послезавтра")
+        }
+    }
+
+    //const dayStatusTest: any = document.querySelector('.day-status-bar__title')
+    //console.log(dayStatusTest)
 
     const clickForward = () => {
         setSelectedDay(selectedDay + 1)
+        //dayStatusTest.classList.add('day-status-bar__title_animated')
         console.log('Нажата кнопка вперёд')
         console.log(selectedDay)
     }
@@ -124,6 +147,9 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
+            <DayStatusBar
+                dayStatus={dayStatus}
+            />
             <Carousel
                 clickForward={clickForward}
                 clickBack={clickBack}

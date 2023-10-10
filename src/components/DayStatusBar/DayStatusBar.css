@@ -1,0 +1,10 @@
+.day-status-bar {
+  display: flex;
+  justify-content: center;
+  transition: opacity 5s ease-in-out;
+}
+.day-status-bar__title_animated {
+  transition: opacity 1s ease;
+  opacity: 0.2;
+}
+/*# sourceMappingURL=DayStatusBar.css.map */
