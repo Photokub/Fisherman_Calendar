@@ -7,4 +7,18 @@
   transition: opacity 1s ease;
   opacity: 0.2;
 }
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 3000ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 3000ms;
+}
 /*# sourceMappingURL=DayStatusBar.css.map */

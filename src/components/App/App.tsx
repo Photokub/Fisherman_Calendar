@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import {Carousel} from "../Carousel/Carousel";
 import {SlideContext} from '../../context/SlideContext'
@@ -48,27 +48,40 @@ const App: React.FC<App> = (
         }
     }, [])
 
-    console.log(forecastData)
+
+// получение текущего времени часа
+    const currDate = new Date
+    const currHour = currDate.getHours()
+    console.log(`Текущий час ${currHour}`)
+
+    useEffect(() => {
+//получение массива прогноза по часам
+        const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
+        console.log(currHourPressMB)
+        const currHourPressMM = Math.trunc(currHourPressMB * 0.750063755419211)
+        console.log(`Давление на текущий час ${currHourPressMM}`)
+
+        const prwHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
+        const prwHourPressMM = Math.trunc(prwHourPressMB * 0.750063755419211)
+        console.log(`Давление в предыдущем часу ${prwHourPressMM}`)
+    },[daysArray, selectedDay])
+
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
     useEffect(() => {
-        selectedDay <= 0 ? setDisableBackBtn(true)  : setDisableBackBtn(false);
-        selectedDay >= arrFromDaysArr.length - 1 ? setDisableForwardBtn(true)  : setDisableForwardBtn(false);
+        selectedDay <= 0 ? setDisableBackBtn(true) : setDisableBackBtn(false);
+        selectedDay >= arrFromDaysArr.length - 1 ? setDisableForwardBtn(true) : setDisableForwardBtn(false);
         dayStatusHandler(selectedDay)
     })
 
     const dayStatusHandler = (day: any) => {
-        console.log(day)
         switch (day) {
             case 0:
-                console.log(day)
                 return setDayStatus("Сегодня")
             case 1:
-                console.log(day)
                 return setDayStatus("Завтра")
             case 2:
-                console.log(day)
                 return setDayStatus("Послезавтра")
         }
     }
