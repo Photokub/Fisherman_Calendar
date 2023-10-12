@@ -42,6 +42,7 @@ const App: React.FC<App> = (
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
+    const [pressureIndex, setPressureIndex] = useState<number>(0)
 
     useEffect(() => {
         try {
@@ -79,15 +80,15 @@ const App: React.FC<App> = (
         const prwHourPressMM = Math.trunc(prwHourPressMB * 0.750063755419211)
         console.log(`Давление в предыдущем часу ${prwHourPressMM}`)
 
-        const pressureIndex = handlePressureIndex(currHourPressMM, prwHourPressMM)
+        const pIndex = handlePressureIndex(currHourPressMM, prwHourPressMM)
+        setPressureIndex(pIndex)
         console.log(`Индекс давления: ${pressureIndex}`)
     }, [daysArray])
 
 //получение индекса состояния давления
-
     function handlePressureIndex(cur: number, prw: number) {
         if (cur == 760) {
-            if (prw != undefined) {
+            if (prw !== undefined || null) {
                 if (cur <= prw) {
                     return 3
                 } else {
@@ -101,7 +102,7 @@ const App: React.FC<App> = (
                 if (cur <= 780) {
                     return 1
                 } else {
-                    if (prw === undefined) {
+                    if (prw === undefined || null) {
                         prw = 760
                     }
                     if (cur < prw) {
@@ -127,9 +128,7 @@ const App: React.FC<App> = (
         }
     }
 
-    // useCallback(() => {
-    //     console.log(handlePressureIndex())
-    // },[])
+
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
@@ -150,12 +149,8 @@ const App: React.FC<App> = (
         }
     }
 
-    //const dayStatusTest: any = document.querySelector('.day-status-bar__title')
-    //console.log(dayStatusTest)
-
     const clickForward = () => {
         setSelectedDay(selectedDay + 1)
-        //dayStatusTest.classList.add('day-status-bar__title_animated')
         console.log('Нажата кнопка вперёд')
         console.log(selectedDay)
     }
@@ -166,24 +161,42 @@ const App: React.FC<App> = (
         console.log(selectedDay)
     }
 
+    const indexPressureConv = (pressureIndex: number) => {
+        switch (pressureIndex) {
+            case 1:
+                return -30;
+            case 2:
+                return -20;
+            case 3:
+                return -10;
+            case 4:
+                return 0;
+            case 5:
+                return 10;
+            case 6:
+                return 20;
+
+        }
+    }
+
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return 'hsl(0, 90%, 45%)';
+                return `hsl(${indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'Waxing Crescent':
-                return 'hsl(70, 90%, 45%)';
+                return `hsl(${80 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'First Quarter':
-                return 'hsl(120, 90%, 45%)';
+                return `hsl(${120 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'Waxing Gibbous':
-                return 'hsl(40, 90%, 45%)';
+                return `hsl(${40 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'Full Moon':
-                return 'hsl(0, 90%, 45%)';
+                return `hsl(${indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'Waning Gibbous':
-                return 'hsl(40, 90%, 45%)';
+                return `hsl(${40 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             case 'Last Quarter' :
-                return 'hsl(120, 90%, 45%)'
+                return `hsl(${120 + indexPressureConv(pressureIndex)!}, 90%, 45%)`
             case 'Waning Crescent':
-                return 'hsl(70, 90%, 45%)';
+                return `hsl(${80 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
             default:
                 return '#8f8b8b'
         }
