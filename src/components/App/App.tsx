@@ -128,8 +128,6 @@ const App: React.FC<App> = (
         }
     }
 
-
-
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
     useEffect(() => {
@@ -161,6 +159,7 @@ const App: React.FC<App> = (
         console.log(selectedDay)
     }
 
+    //присвоение вычисления по индексу
     const indexPressureConv = (pressureIndex: number) => {
         switch (pressureIndex) {
             case 1:
@@ -175,28 +174,36 @@ const App: React.FC<App> = (
                 return 10;
             case 6:
                 return 20;
+        }
+    }
 
+    //вычисление Hue
+    function handleHueValue(moon: number, press: number) {
+        if (moon < press || press > 120) {
+            return moon
+        } else {
+            return moon + press
         }
     }
 
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return `hsl(${indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'Waxing Crescent':
-                return `hsl(${80 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'First Quarter':
-                return `hsl(${120 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'Waxing Gibbous':
-                return `hsl(${40 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'Full Moon':
-                return `hsl(${indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'Waning Gibbous':
-                return `hsl(${40 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             case 'Last Quarter' :
-                return `hsl(${120 + indexPressureConv(pressureIndex)!}, 90%, 45%)`
+                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndex)!)}, 90%, 45%)`
             case 'Waning Crescent':
-                return `hsl(${80 + indexPressureConv(pressureIndex)!}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
             default:
                 return '#8f8b8b'
         }
