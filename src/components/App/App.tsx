@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
 import {setSelectedDay} from "../../actions/SelectedDayAction";
 import DayStatusBar from "../DayStatusBar/DayStatusBar"
+import {PressureBar} from "../PressureBar/PressureBar";
 // import {subscribe} from "diagnostics_channel";
 // import {store} from "../../store/configStore";
 
@@ -43,6 +44,9 @@ const App: React.FC<App> = (
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
     const [pressureIndex, setPressureIndex] = useState<number>(0)
+    const [currentHourPressure, setCurrentHourPressure] = useState<number>(0)
+    const [previousHourPressure, setPreviousHourPressure] = useState<number>(0)
+    const [pressureVerdict, setPressureVerdict] = useState('')
 
     useEffect(() => {
         try {
@@ -75,13 +79,17 @@ const App: React.FC<App> = (
         console.log(currHourPressMB)
         const currHourPressMM = Math.trunc(currHourPressMB * 0.750063755419211)
         console.log(`Давление на текущий час ${currHourPressMM}`)
+        setCurrentHourPressure(currHourPressMM)
 
-        const prwHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
-        const prwHourPressMM = Math.trunc(prwHourPressMB * 0.750063755419211)
-        console.log(`Давление в предыдущем часу ${prwHourPressMM}`)
+        const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
+        const prvHourPressMM = Math.trunc(prvHourPressMB * 0.750063755419211)
+        console.log(`Давление в предыдущем часу ${prvHourPressMM}`)
+        setPreviousHourPressure(prvHourPressMM)
 
-        const pIndex = handlePressureIndex(currHourPressMM, prwHourPressMM)
+        const pIndex = handlePressureIndex(currHourPressMM, prvHourPressMM)
         setPressureIndex(pIndex)
+        const pVerdict = (handlePressureVerdict(pressureIndex))
+        setPressureVerdict(pVerdict!)
         console.log(`Индекс давления: ${pressureIndex}`)
     }, [daysArray])
 
@@ -186,6 +194,26 @@ const App: React.FC<App> = (
         }
     }
 
+    //обозначение поведения давления по индексу
+    const handlePressureVerdict = (press: number) => {
+        switch (press) {
+            case 1:
+                return 'давление высокое';
+            case 2:
+                return 'повешение высокого давления';
+            case 3:
+                return 'понижение высокого давления';
+            case 4:
+                return 'давление нормальное';
+            case 5:
+                return 'повешение низкого давления';
+            case 6:
+                return 'понижение низкого давления';
+            case 7:
+                return 'давление низкое';
+        }
+    }
+
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
@@ -254,6 +282,11 @@ const App: React.FC<App> = (
                 setRusMonthName={setRusMonthName}
                 disableBackBtn={disableBackBtn}
                 disableForwardBtn={disableForwardBtn}
+            />
+            <PressureBar
+                currentHourPressure={currentHourPressure}
+                pressureIndex={pressureIndex}
+                pressureVerdict={pressureVerdict}
             />
         </SlideContext.Provider>
     );
