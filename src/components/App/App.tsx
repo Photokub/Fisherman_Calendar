@@ -11,15 +11,15 @@ import DayStatusBar from "../DayStatusBar/DayStatusBar"
 // import {subscribe} from "diagnostics_channel";
 // import {store} from "../../store/configStore";
 
-    // =======PRESSURE INDEX MAP========
-    //     hi -------------- 1
-    //     rise#2 ---------- 2
-    //     desсent#2 ------- 3
-    //     normal ---------- 4
-    //     rise#1 ---------- 5
-    //     desсent#1 ------- 6
-    //     low ------------- 7
-    // =================================
+// =======PRESSURE INDEX MAP========
+//     hi -------------- 1
+//     rise#2 ---------- 2
+//     desсent#2 ------- 3
+//     normal ---------- 4
+//     rise#1 ---------- 5
+//     desсent#1 ------- 6
+//     low ------------- 7
+// =================================
 
 
 interface App {
@@ -111,13 +111,13 @@ const App: React.FC<App> = (
                     }
                 }
             } else {
-                if(cur <= 735){
+                if (cur <= 735) {
                     return 7
                 } else {
                     if (prw === undefined) {
                         prw = 760
                     }
-                    if (cur < prw){
+                    if (cur < prw) {
                         return 6
                     } else {
                         return 5
@@ -169,21 +169,21 @@ const App: React.FC<App> = (
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return '#ff0000';
+                return 'hsl(0, 90%, 40%)';
             case 'Waxing Crescent':
-                return '#c1de59';
+                return 'hsl(70, 90%, 40%)';
             case 'First Quarter':
-                return '#02ad4f';
+                return 'hsl(147, 90%, 40%)';
             case 'Waxing Gibbous':
-                return '#ffae00';
+                return 'hsl(40, 90%, 40%)';
             case 'Full Moon':
-                return '#ff0000';
+                return 'hsl(0, 90%, 40%)';
             case 'Waning Gibbous':
-                return '#ffae00';
+                return 'hsl(40, 90%, 40%)';
             case 'Last Quarter' :
-                return '#02ad4f'
+                return 'hsl(147, 90%, 40%)'
             case 'Waning Crescent':
-                return '#c1de59';
+                return 'hsl(70, 90%, 40%)';
             default:
                 return '#8f8b8b'
         }
