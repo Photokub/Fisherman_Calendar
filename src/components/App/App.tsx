@@ -169,21 +169,21 @@ const App: React.FC<App> = (
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return 'hsl(0, 90%, 40%)';
+                return 'hsl(0, 90%, 45%)';
             case 'Waxing Crescent':
-                return 'hsl(70, 90%, 40%)';
+                return 'hsl(70, 90%, 45%)';
             case 'First Quarter':
-                return 'hsl(147, 90%, 40%)';
+                return 'hsl(120, 90%, 45%)';
             case 'Waxing Gibbous':
-                return 'hsl(40, 90%, 40%)';
+                return 'hsl(40, 90%, 45%)';
             case 'Full Moon':
-                return 'hsl(0, 90%, 40%)';
+                return 'hsl(0, 90%, 45%)';
             case 'Waning Gibbous':
-                return 'hsl(40, 90%, 40%)';
+                return 'hsl(40, 90%, 45%)';
             case 'Last Quarter' :
-                return 'hsl(147, 90%, 40%)'
+                return 'hsl(120, 90%, 45%)'
             case 'Waning Crescent':
-                return 'hsl(70, 90%, 40%)';
+                return 'hsl(70, 90%, 45%)';
             default:
                 return '#8f8b8b'
         }
