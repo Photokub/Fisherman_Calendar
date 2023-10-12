@@ -8,6 +8,19 @@ import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
 import {setSelectedDay} from "../../actions/SelectedDayAction";
 import DayStatusBar from "../DayStatusBar/DayStatusBar"
+// import {subscribe} from "diagnostics_channel";
+// import {store} from "../../store/configStore";
+
+    // =======PRESSURE INDEX MAP========
+    //     hi -------------- 1
+    //     rise#2 ---------- 2
+    //     desсent#2 ------- 3
+    //     normal ---------- 4
+    //     rise#1 ---------- 5
+    //     desсent#1 ------- 6
+    //     low ------------- 7
+    // =================================
+
 
 interface App {
     forecastData: any,
@@ -39,8 +52,9 @@ const App: React.FC<App> = (
                 if (!forecastData) {
                     throw new Error('Не удалось получить данные')
                 }
-                setForecastData(forecastData.forecast)
-                setDaysArray(forecastData.forecast.forecastday)
+                await setForecastData(forecastData.forecast)
+                await setDaysArray(forecastData.forecast.forecastday)
+                //await handlePressure()
             }
             fetchData()
         } catch (err) {
@@ -54,8 +68,8 @@ const App: React.FC<App> = (
     const currHour = currDate.getHours()
     console.log(`Текущий час ${currHour}`)
 
-    useEffect(() => {
 //получение массива прогноза по часам
+    useEffect(() => {
         const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
         console.log(currHourPressMB)
         const currHourPressMM = Math.trunc(currHourPressMB * 0.750063755419211)
@@ -64,8 +78,58 @@ const App: React.FC<App> = (
         const prwHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
         const prwHourPressMM = Math.trunc(prwHourPressMB * 0.750063755419211)
         console.log(`Давление в предыдущем часу ${prwHourPressMM}`)
-    },[daysArray, selectedDay])
 
+        const pressureIndex = handlePressureIndex(currHourPressMM, prwHourPressMM)
+        console.log(`Индекс давления: ${pressureIndex}`)
+    }, [daysArray])
+
+//получение индекса состояния давления
+
+    function handlePressureIndex(cur: number, prw: number) {
+        if (cur == 760) {
+            if (prw != undefined) {
+                if (cur <= prw) {
+                    return 3
+                } else {
+                    return 5
+                }
+            } else {
+                return 4
+            }
+        } else {
+            if (cur > 760) {
+                if (cur <= 780) {
+                    return 1
+                } else {
+                    if (prw === undefined) {
+                        prw = 760
+                    }
+                    if (cur < prw) {
+                        return 3
+                    } else {
+                        return 2
+                    }
+                }
+            } else {
+                if(cur <= 735){
+                    return 7
+                } else {
+                    if (prw === undefined) {
+                        prw = 760
+                    }
+                    if (cur < prw){
+                        return 6
+                    } else {
+                        return 5
+                    }
+                }
+            }
+        }
+    }
+
+    // useCallback(() => {
+    //     console.log(handlePressureIndex())
+    // },[])
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
