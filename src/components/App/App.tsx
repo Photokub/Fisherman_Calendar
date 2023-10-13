@@ -43,10 +43,13 @@ const App: React.FC<App> = (
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
-    const [pressureIndex, setPressureIndex] = useState<number>(4)
+    const [pressureIndexPrv, setPressureIndexPrv] = useState<number>(4)
+    const [pressureIndexNext, setPressureIndexNext] = useState<number>(4)
     const [currentHourPressure, setCurrentHourPressure] = useState<number>(0)
     const [previousHourPressure, setPreviousHourPressure] = useState<number>(0)
-    const [pressureVerdict, setPressureVerdict] = useState('')
+    const [nextHourPressure, setNextHourPressure] = useState<number>(0)
+    const [pressureVerdictPrv, setPressureVerdictPrv] = useState('')
+    const [pressureVerdictNext, setPressureVerdictNext] = useState('')
 
     useEffect(() => {
         try {
@@ -75,34 +78,49 @@ const App: React.FC<App> = (
 
 //получение массива прогноза по часам
     useEffect(() => {
-        const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
-        console.log(currHourPressMB)
-        const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
-        console.log(`Давление на текущий час ${currHourPressMM}`)
-        setCurrentHourPressure(currHourPressMM)
 
         const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
         const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
         console.log(`Давление в предыдущем часу ${prvHourPressMM}`)
         setPreviousHourPressure(prvHourPressMM)
 
-        const pIndex = handlePressureIndex(currHourPressMM, prvHourPressMM)
-        setPressureIndex(pIndex)
-        const pVerdict = (handlePressureVerdict(pressureIndex))
-        setPressureVerdict(pVerdict!)
-        console.log(`Индекс давления: ${pressureIndex}`)
+        const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
+        const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
+        console.log(`Давление на текущий час ${currHourPressMM}`)
+        setCurrentHourPressure(currHourPressMM)
+
+        const nxtHourPressMB = daysArray.days[0]?.hour[currHour + 1].pressure_mb
+        const nxtHourPressMM = Math.round(nxtHourPressMB * 0.750063755419211)
+        console.log(`Давление в следующем часу ${nxtHourPressMM}`)
+        setNextHourPressure(nxtHourPressMM)
+
+        const pIndexPrv = handlePressIndexCurToPast(currHourPressMM, prvHourPressMM)
+        setPressureIndexPrv(pIndexPrv)
+        const pIndexNxt = handlePressIndexCurToNext(currHourPressMM, nxtHourPressMM)
+        setPressureIndexNext(pIndexNxt)
+        console.log(pIndexNxt)
+        console.log(pressureIndexNext)
+
+        const pVerdictPrv = (handlePastPressureVerdict(pressureIndexPrv))
+        setPressureVerdictPrv(pVerdictPrv!)
+        console.log(`Индекс текущего давления: ${pressureIndexPrv}`)
+
+        const pVerdictPrvNext = (handleNextPressureVerdict(pressureIndexNext))
+        setPressureVerdictNext(pVerdictPrvNext!)
+        console.log(`Индекс следующего давления: ${pressureIndexNext}`)
+
     }, [daysArray])
 
-//получение индекса состояния давления
-    function handlePressureIndex(cur: number, prv: number) {
+//получение индекса состояния давления на текущий час по отношению к предыдущему
+    function handlePressIndexCurToPast(cur: number, prv: number) {
         if (cur === 760) {
             if (prv !== undefined || null) {
                 if (cur <= prv) {
                     return 3
                 } else {
                     if (cur === prv) {
-                        console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
-                        return pressureIndex
+                        console.log(`Давление совпало. Будет возвращён pressureIndexPrv ${pressureIndexPrv}`)
+                        return pressureIndexPrv
                     } else {
                         return 5
                     }
@@ -122,8 +140,8 @@ const App: React.FC<App> = (
                         return 3
                     } else {
                         if (cur === prv) {
-                            console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
-                            return pressureIndex
+                            console.log(`Предыдущее давление совпало. Будет возвращён pressureIndexPrv ${pressureIndexPrv}`)
+                            return pressureIndexPrv
                         } else {
                             return 2
                         }
@@ -140,10 +158,68 @@ const App: React.FC<App> = (
                         return 6
                     } else {
                         if (cur === prv) {
-                            console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
-                            return pressureIndex
+                            console.log(`Предыдущее давление совпало. Будет возвращён pressureIndexPrv ${pressureIndexPrv}`)
+                            return pressureIndexPrv
                         } else {
                             return 5
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //получение индекса состояния давления на текущий час по отношению к следующему
+    function handlePressIndexCurToNext(cur: number, nxt: number) {
+        if (cur === 760) {
+            if (nxt !== undefined || null) {
+                if (cur <= nxt) {
+                    return 2
+                } else {
+                    if (cur === nxt) {
+                        console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndexNext}`)
+                        return pressureIndexNext
+                    } else {
+                        return 6
+                    }
+                }
+            } else {
+                return 4
+            }
+        } else {
+            if (cur > 760) {
+                if (cur >= 780) {
+                    return 1
+                } else {
+                    if (nxt === undefined || null) {
+                        nxt = 760
+                    }
+                    if (cur < nxt) {
+                        return 2
+                    } else {
+                        if (cur === nxt) {
+                            console.log(`Следующее давление совпало. Будет возвращён pressureIndex ${pressureIndexNext}`)
+                            return pressureIndexNext
+                        } else {
+                            return 3
+                        }
+                    }
+                }
+            } else {
+                if (cur <= 735) {
+                    return 7
+                } else {
+                    if (nxt === undefined) {
+                        nxt = 760
+                    }
+                    if (cur < nxt) {
+                        return 5
+                    } else {
+                        if (cur === nxt) {
+                            console.log(`Следующее давление совпало. Будет возвращён pressureIndex ${pressureIndexNext}`)
+                            return pressureIndexNext
+                        } else {
+                            return 6
                         }
                     }
                 }
@@ -209,8 +285,8 @@ const App: React.FC<App> = (
         }
     }
 
-    //обозначение поведения давления по индексу
-    const handlePressureVerdict = (press: number) => {
+    //описание по индексу поведения давления текущего часа к предыдущему
+    const handlePastPressureVerdict = (press: number) => {
         switch (press) {
             case 1:
                 return 'давление высокое';
@@ -229,24 +305,44 @@ const App: React.FC<App> = (
         }
     }
 
+    //описание по индексу поведения давления текущего часа к следующему
+    const handleNextPressureVerdict = (press: number) => {
+        switch (press) {
+            case 1:
+                return 'давление будет высокое';
+            case 2:
+                return ' будет повышение высокого давления';
+            case 3:
+                return 'будет понижение высокого давления';
+            case 4:
+                return 'давление будет нормальное';
+            case 5:
+                return 'будет повышение низкого давления';
+            case 6:
+                return 'будет понижение низкого давления';
+            case 7:
+                return 'давление будет низкое';
+        }
+    }
+
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'Waxing Crescent':
-                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'First Quarter':
-                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'Waxing Gibbous':
-                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'Full Moon':
-                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'Waning Gibbous':
-                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             case 'Last Quarter' :
-                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndex)!)}, 90%, 45%)`
+                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`
             case 'Waning Crescent':
-                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndex)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
             default:
                 return '#8f8b8b'
         }
@@ -300,8 +396,9 @@ const App: React.FC<App> = (
             />
             <PressureBar
                 currentHourPressure={currentHourPressure}
-                pressureIndex={pressureIndex}
-                pressureVerdict={pressureVerdict}
+                pressureIndexPrv={pressureIndexPrv}
+                pressureVerdictPrv={pressureVerdictPrv}
+                pressureVerdictNext={pressureVerdictNext}
             />
         </SlideContext.Provider>
     );

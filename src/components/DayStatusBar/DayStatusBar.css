@@ -21,4 +21,10 @@
   opacity: 0;
   transition: opacity 3000ms;
 }
+.day-status-bar__title {
+  margin: 0 0 15px 0;
+  font-weight: bold;
+  font-size: 26px;
+  color: hsl(0, 0%, 50%);
+}
 /*# sourceMappingURL=DayStatusBar.css.map */
