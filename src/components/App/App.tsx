@@ -43,7 +43,7 @@ const App: React.FC<App> = (
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
-    const [pressureIndex, setPressureIndex] = useState<number>(760)
+    const [pressureIndex, setPressureIndex] = useState<number>(4)
     const [currentHourPressure, setCurrentHourPressure] = useState<number>(0)
     const [previousHourPressure, setPreviousHourPressure] = useState<number>(0)
     const [pressureVerdict, setPressureVerdict] = useState('')
@@ -95,12 +95,17 @@ const App: React.FC<App> = (
 
 //получение индекса состояния давления
     function handlePressureIndex(cur: number, prv: number) {
-        if (cur == 760) {
+        if (cur === 760) {
             if (prv !== undefined || null) {
                 if (cur <= prv) {
                     return 3
                 } else {
-                    return 5
+                    if (cur === prv) {
+                        console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
+                        return pressureIndex
+                    } else {
+                        return 5
+                    }
                 }
             } else {
                 return 4
