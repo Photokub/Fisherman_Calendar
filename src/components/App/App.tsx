@@ -43,7 +43,7 @@ const App: React.FC<App> = (
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
-    const [pressureIndex, setPressureIndex] = useState<number>(0)
+    const [pressureIndex, setPressureIndex] = useState<number>(760)
     const [currentHourPressure, setCurrentHourPressure] = useState<number>(0)
     const [previousHourPressure, setPreviousHourPressure] = useState<number>(0)
     const [pressureVerdict, setPressureVerdict] = useState('')
@@ -77,12 +77,12 @@ const App: React.FC<App> = (
     useEffect(() => {
         const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
         console.log(currHourPressMB)
-        const currHourPressMM = Math.trunc(currHourPressMB * 0.750063755419211)
+        const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
         console.log(`Давление на текущий час ${currHourPressMM}`)
         setCurrentHourPressure(currHourPressMM)
 
         const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
-        const prvHourPressMM = Math.trunc(prvHourPressMB * 0.750063755419211)
+        const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
         console.log(`Давление в предыдущем часу ${prvHourPressMM}`)
         setPreviousHourPressure(prvHourPressMM)
 
@@ -94,10 +94,10 @@ const App: React.FC<App> = (
     }, [daysArray])
 
 //получение индекса состояния давления
-    function handlePressureIndex(cur: number, prw: number) {
+    function handlePressureIndex(cur: number, prv: number) {
         if (cur == 760) {
-            if (prw !== undefined || null) {
-                if (cur <= prw) {
+            if (prv !== undefined || null) {
+                if (cur <= prv) {
                     return 3
                 } else {
                     return 5
@@ -107,29 +107,39 @@ const App: React.FC<App> = (
             }
         } else {
             if (cur > 760) {
-                if (cur <= 780) {
+                if (cur >= 780) {
                     return 1
                 } else {
-                    if (prw === undefined || null) {
-                        prw = 760
+                    if (prv === undefined || null) {
+                        prv = 760
                     }
-                    if (cur < prw) {
+                    if (cur < prv) {
                         return 3
                     } else {
-                        return 2
+                        if (cur === prv) {
+                            console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
+                            return pressureIndex
+                        } else {
+                            return 2
+                        }
                     }
                 }
             } else {
                 if (cur <= 735) {
                     return 7
                 } else {
-                    if (prw === undefined) {
-                        prw = 760
+                    if (prv === undefined) {
+                        prv = 760
                     }
-                    if (cur < prw) {
+                    if (cur < prv) {
                         return 6
                     } else {
-                        return 5
+                        if (cur === prv) {
+                            console.log(`Давление совпало. Будет возвращён pressureIndex ${pressureIndex}`)
+                            return pressureIndex
+                        } else {
+                            return 5
+                        }
                     }
                 }
             }
@@ -200,13 +210,13 @@ const App: React.FC<App> = (
             case 1:
                 return 'давление высокое';
             case 2:
-                return 'повешение высокого давления';
+                return 'повышение высокого давления';
             case 3:
                 return 'понижение высокого давления';
             case 4:
                 return 'давление нормальное';
             case 5:
-                return 'повешение низкого давления';
+                return 'повышение низкого давления';
             case 6:
                 return 'понижение низкого давления';
             case 7:
