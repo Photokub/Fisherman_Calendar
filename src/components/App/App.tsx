@@ -43,8 +43,8 @@ const App: React.FC<App> = (
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
     const [dayStatus, setDayStatus] = useState('Сегодня')
-    const [pressureIndexPrv, setPressureIndexPrv] = useState<number>(4)
-    const [pressureIndexNext, setPressureIndexNext] = useState<number>(4)
+    const [pressureIndexPrv, setPressureIndexPrv] = useState<number>(0)
+    const [pressureIndexNext, setPressureIndexNext] = useState<number>(0)
     const [currentHourPressure, setCurrentHourPressure] = useState<number>(0)
     const [previousHourPressure, setPreviousHourPressure] = useState<number>(0)
     const [nextHourPressure, setNextHourPressure] = useState<number>(0)
@@ -91,7 +91,7 @@ const App: React.FC<App> = (
 
         const nxtHourPressMB = daysArray.days[0]?.hour[currHour + 1].pressure_mb
         const nxtHourPressMM = Math.round(nxtHourPressMB * 0.750063755419211)
-        console.log(`Давление в следующем часу ${nxtHourPressMM}`)
+        console.log(`Давление в следующем часу: ${nxtHourPressMM}`)
         setNextHourPressure(nxtHourPressMM)
 
         const pIndexPrv = handlePressIndexCurToPast(currHourPressMM, prvHourPressMM)
@@ -109,7 +109,7 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
-    }, [daysArray])
+    } )
 
 //получение индекса состояния давления на текущий час по отношению к предыдущему
     function handlePressIndexCurToPast(cur: number, prv: number) {
