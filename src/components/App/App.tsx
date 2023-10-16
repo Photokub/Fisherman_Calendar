@@ -152,7 +152,7 @@ const App: React.FC<App> = (
         }
     }
 
-    function pressureConvertorMBtoMM(mb: number){
+    function pressureConvertorMBtoMM(mb: number) {
         return Math.round(mb * 0.750063755419211)
     }
 
@@ -192,14 +192,13 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
-    },[
+    }, [
         daysArray,
         pressureIndexPrv,
         pressureIndexNext,
         pressureVerdictPrv,
         pressureVerdictNext
     ])
-
 
 
 //получение индекса состояния давления на текущий час по отношению к предыдущему
@@ -312,6 +311,35 @@ const App: React.FC<App> = (
                         } else {
                             return 6
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    //получение индекса давления из среднего за сутки
+    function handleAveragePressIndex(avr: number) {
+        if (avr === 760) {
+            return 4
+        } else {
+            if (avr > 760) {
+                if (avr >= 780) {
+                    return 1
+                } else {
+                    if (avr >= 770) {
+                        return 2
+                    } else {
+                        return 3
+                    }
+                }
+            } else {
+                if (avr <= 730) {
+                    return 7
+                } else {
+                    if (avr <= 740) {
+                        return 6
+                    } else {
+                        return 5
                     }
                 }
             }
@@ -431,8 +459,8 @@ const App: React.FC<App> = (
         const selectedDayData = daysArray.days[selectedDay]
         const dayPressureData = selectedDayData?.hour
         console.log(dayPressureData)
-        const dayPressureArr =  dayPressureData?.map((day: any) => pressureConvertorMBtoMM(day.pressure_mb))
-        const middlePressureValue = Math.round((dayPressureArr?.reduce((a: number,b: number) => a+b)) / dayPressureArr?.length)
+        const dayPressureArr = dayPressureData?.map((day: any) => pressureConvertorMBtoMM(day.pressure_mb))
+        const middlePressureValue = Math.round((dayPressureArr?.reduce((a: number, b: number) => a + b)) / dayPressureArr?.length)
         console.log(`Среднее значения дня№ ${selectedDay} - ${middlePressureValue}`)
         setAveragePressure(middlePressureValue)
 
