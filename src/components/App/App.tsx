@@ -210,8 +210,6 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
-
-
     }, [
         daysArray,
         pressureIndexPrv,
@@ -226,7 +224,7 @@ const App: React.FC<App> = (
         const pVerdictFuture = (handleFuturePressureVerdict(pressureIndexAverage))
         setPressureVerdictAverage(pVerdictFuture!)
         console.log(`Индекс давления на день ${selectedDay}: ${pressureIndexAverage}. Состояние : ${pressureVerdictAverage}`)
-    },[averagePressure])
+    },[averagePressure, pressureVerdictAverage])
 
 
 //получение индекса состояния давления на текущий час по отношению к предыдущему
@@ -499,25 +497,48 @@ const App: React.FC<App> = (
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
             case 'New Moon':
-                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'Waxing Crescent':
-                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'First Quarter':
-                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(120, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'Waxing Gibbous':
-                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'Full Moon':
-                return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(0, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'Waning Gibbous':
-                return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(40, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             case 'Last Quarter' :
-                return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`
+                return `hsl(${handleHueValue(120, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`
             case 'Waning Crescent':
-                return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+                return `hsl(${handleHueValue(80, indexPressureConv(selectedDay !==0 ? pressureIndexAverage! : pressureIndexPrv!)!)}, 90%, 45%)`;
             default:
                 return '#8f8b8b'
         }
     }
+
+    // const setStyleColor = (moonPhase: string) => {
+    //     switch (moonPhase) {
+    //         case 'New Moon':
+    //             return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'Waxing Crescent':
+    //             return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'First Quarter':
+    //             return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'Waxing Gibbous':
+    //             return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'Full Moon':
+    //             return `hsl(${handleHueValue(0, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'Waning Gibbous':
+    //             return `hsl(${handleHueValue(40, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         case 'Last Quarter' :
+    //             return `hsl(${handleHueValue(120, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`
+    //         case 'Waning Crescent':
+    //             return `hsl(${handleHueValue(80, indexPressureConv(pressureIndexPrv)!)}, 90%, 45%)`;
+    //         default:
+    //             return '#8f8b8b'
+    //     }
+    // }
 
     const setRusMonthName = (monthNumber: string) => {
         switch (monthNumber) {
