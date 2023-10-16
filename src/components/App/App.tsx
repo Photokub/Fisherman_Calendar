@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import './App.css';
 import {Carousel} from "../Carousel/Carousel";
 import {SlideContext} from '../../context/SlideContext'
@@ -77,7 +77,82 @@ const App: React.FC<App> = (
     console.log(`Текущий час ${currHour}`)
 
 //получение массива прогноза по часам
-    useEffect(() => {
+//     useEffect(() => {
+//
+//         const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
+//         const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
+//         console.log(`Давление в предыдущем часу ${prvHourPressMM}`)
+//         setPreviousHourPressure(prvHourPressMM)
+//
+//         const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
+//         const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
+//         console.log(`Давление на текущий час ${currHourPressMM}`)
+//         setCurrentHourPressure(currHourPressMM)
+//
+//         const nxtHourPressMB = daysArray.days[0]?.hour[currHour + 1].pressure_mb
+//         const nxtHourPressMM = Math.round(nxtHourPressMB * 0.750063755419211)
+//         console.log(`Давление в следующем часу: ${nxtHourPressMM}`)
+//         setNextHourPressure(nxtHourPressMM)
+//
+//         const pIndexPrv = handlePressIndexCurToPast(currHourPressMM, prvHourPressMM)
+//         setPressureIndexPrv(pIndexPrv)
+//         const pIndexNxt = handlePressIndexCurToNext(currHourPressMM, nxtHourPressMM)
+//         setPressureIndexNext(pIndexNxt)
+//         console.log(pIndexNxt)
+//         console.log(pressureIndexNext)
+//
+//         const pVerdictPrv = (handlePastPressureVerdict(pressureIndexPrv))
+//         setPressureVerdictPrv(pVerdictPrv!)
+//         console.log(`Индекс текущего давления: ${pressureIndexPrv}`)
+//
+//         const pVerdictPrvNext = (handleNextPressureVerdict(pressureIndexNext))
+//         setPressureVerdictNext(pVerdictPrvNext!)
+//         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
+//
+//     } )
+
+    //описание по индексу поведения давления текущего часа к предыдущему
+    const handlePastPressureVerdict = (press: number) => {
+        switch (press) {
+            case 1:
+                return 'давление высокое';
+            case 2:
+                return 'повышение высокого давления';
+            case 3:
+                return 'понижение высокого давления';
+            case 4:
+                return 'давление нормальное';
+            case 5:
+                return 'повышение низкого давления';
+            case 6:
+                return 'понижение низкого давления';
+            case 7:
+                return 'давление низкое';
+        }
+    }
+
+    //описание по индексу поведения давления текущего часа к следующему
+    const handleNextPressureVerdict = (press: number) => {
+        switch (press) {
+            case 1:
+                return 'давление будет высокое';
+            case 2:
+                return ' будет повышение высокого давления';
+            case 3:
+                return 'будет понижение высокого давления';
+            case 4:
+                return 'давление будет нормальное';
+            case 5:
+                return 'будет повышение низкого давления';
+            case 6:
+                return 'будет понижение низкого давления';
+            case 7:
+                return 'давление будет низкое';
+        }
+    }
+
+
+    useMemo(() => {
 
         const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
         const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
@@ -109,7 +184,9 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
-    } )
+    },[daysArray])
+
+
 
 //получение индекса состояния давления на текущий час по отношению к предыдущему
     function handlePressIndexCurToPast(cur: number, prv: number) {
@@ -285,45 +362,45 @@ const App: React.FC<App> = (
         }
     }
 
-    //описание по индексу поведения давления текущего часа к предыдущему
-    const handlePastPressureVerdict = (press: number) => {
-        switch (press) {
-            case 1:
-                return 'давление высокое';
-            case 2:
-                return 'повышение высокого давления';
-            case 3:
-                return 'понижение высокого давления';
-            case 4:
-                return 'давление нормальное';
-            case 5:
-                return 'повышение низкого давления';
-            case 6:
-                return 'понижение низкого давления';
-            case 7:
-                return 'давление низкое';
-        }
-    }
-
-    //описание по индексу поведения давления текущего часа к следующему
-    const handleNextPressureVerdict = (press: number) => {
-        switch (press) {
-            case 1:
-                return 'давление будет высокое';
-            case 2:
-                return ' будет повышение высокого давления';
-            case 3:
-                return 'будет понижение высокого давления';
-            case 4:
-                return 'давление будет нормальное';
-            case 5:
-                return 'будет повышение низкого давления';
-            case 6:
-                return 'будет понижение низкого давления';
-            case 7:
-                return 'давление будет низкое';
-        }
-    }
+    // //описание по индексу поведения давления текущего часа к предыдущему
+    // const handlePastPressureVerdict = (press: number) => {
+    //     switch (press) {
+    //         case 1:
+    //             return 'давление высокое';
+    //         case 2:
+    //             return 'повышение высокого давления';
+    //         case 3:
+    //             return 'понижение высокого давления';
+    //         case 4:
+    //             return 'давление нормальное';
+    //         case 5:
+    //             return 'повышение низкого давления';
+    //         case 6:
+    //             return 'понижение низкого давления';
+    //         case 7:
+    //             return 'давление низкое';
+    //     }
+    // }
+    //
+    // //описание по индексу поведения давления текущего часа к следующему
+    // const handleNextPressureVerdict = (press: number) => {
+    //     switch (press) {
+    //         case 1:
+    //             return 'давление будет высокое';
+    //         case 2:
+    //             return ' будет повышение высокого давления';
+    //         case 3:
+    //             return 'будет понижение высокого давления';
+    //         case 4:
+    //             return 'давление будет нормальное';
+    //         case 5:
+    //             return 'будет повышение низкого давления';
+    //         case 6:
+    //             return 'будет понижение низкого давления';
+    //         case 7:
+    //             return 'давление будет низкое';
+    //     }
+    // }
 
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
