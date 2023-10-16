@@ -9,6 +9,7 @@ interface PressureBarPropTypes {
     pressureVerdictNext: string,
     selectedDay: any,
     averagePressure: number,
+    pressureVerdictAverage: any
 }
 
 export const PressureBar: React.FC<PressureBarPropTypes> = ({
@@ -16,7 +17,8 @@ export const PressureBar: React.FC<PressureBarPropTypes> = ({
                                                                 pressureVerdictPrv,
                                                                 pressureVerdictNext,
                                                                 selectedDay,
-                                                                averagePressure
+                                                                averagePressure,
+                                                                pressureVerdictAverage
                                                             }) => {
     return (
         <section className='pressure-bar'>
@@ -29,6 +31,7 @@ export const PressureBar: React.FC<PressureBarPropTypes> = ({
                 :
                 <FuturePressureState
                     averagePressure={averagePressure}
+                    pressureVerdictAverage={pressureVerdictAverage}
                 />
             }
         </section>

@@ -51,6 +51,8 @@ const App: React.FC<App> = (
     const [pressureVerdictPrv, setPressureVerdictPrv] = useState('')
     const [pressureVerdictNext, setPressureVerdictNext] = useState('')
     const [averagePressure, setAveragePressure] = useState<number>(0)
+    const [pressureIndexAverage, setPressureIndexAverage] = useState<number>(0)
+    const [pressureVerdictAverage, setPressureVerdictAverage] = useState('')
 
     useEffect(() => {
         try {
@@ -138,7 +140,7 @@ const App: React.FC<App> = (
             case 1:
                 return 'давление будет высокое';
             case 2:
-                return ' будет повышение высокого давления';
+                return 'будет повышение высокого давления';
             case 3:
                 return 'будет понижение высокого давления';
             case 4:
@@ -149,6 +151,22 @@ const App: React.FC<App> = (
                 return 'будет понижение низкого давления';
             case 7:
                 return 'давление будет низкое';
+        }
+    }
+
+    //описание по индексу поведения давления не сегодня
+    const handleFuturePressureVerdict = (press: number) => {
+        switch (press) {
+            case 1:
+                return 'В среднем давление будет высокое';
+            case 2 || 3:
+                return 'В среднем будет повышенное давление';
+            case 4:
+                return 'В среднем давление будет нормальное';
+            case 5 || 6:
+                return 'В среднем будет пониженное давление';
+            case 7:
+                return 'В среднем давление будет низкое';
         }
     }
 
@@ -192,13 +210,23 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
+
+
     }, [
         daysArray,
         pressureIndexPrv,
         pressureIndexNext,
         pressureVerdictPrv,
-        pressureVerdictNext
+        pressureVerdictNext,
     ])
+
+    useMemo(() => {
+        const pIndexFuture = handleAveragePressIndex(averagePressure)
+        setPressureIndexAverage(pIndexFuture)
+        const pVerdictFuture = (handleFuturePressureVerdict(pressureIndexAverage))
+        setPressureVerdictAverage(pVerdictFuture!)
+        console.log(`Индекс давления на день ${selectedDay}: ${pressureIndexAverage}. Состояние : ${pressureVerdictAverage}`)
+    },[averagePressure])
 
 
 //получение индекса состояния давления на текущий час по отношению к предыдущему
@@ -543,6 +571,7 @@ const App: React.FC<App> = (
                 pressureVerdictNext={pressureVerdictNext}
                 selectedDay={selectedDay}
                 averagePressure={averagePressure}
+                pressureVerdictAverage={pressureVerdictAverage}
             />
         </SlideContext.Provider>
     );
