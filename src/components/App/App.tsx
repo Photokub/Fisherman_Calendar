@@ -423,7 +423,10 @@ const App: React.FC<App> = (
         // const day = handleFutureData(selectedDay)
         const selectedDayData = daysArray.days[selectedDay]
         const dayPressureData = selectedDayData?.hour
-        const dayPressureArr =  dayPressureData?.map((day: any) => day.pressure_mb)
+        console.log(dayPressureData)
+        const dayPressureArr =  dayPressureData?.map((day: any) => pressureConvertorMBtoMM(day.pressure_mb))
+        const middlePressureValue = Math.round((dayPressureArr?.reduce((a: number,b: number) => a+b)) / dayPressureArr?.length)
+        console.log(`Среднее значения дня№ ${selectedDay} - ${middlePressureValue}`)
 
 
         console.log(dayPressureArr)
