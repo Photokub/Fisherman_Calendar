@@ -151,21 +151,28 @@ const App: React.FC<App> = (
         }
     }
 
+    function pressureConvertorMBtoMM(mb: number){
+        return Math.round(mb * 0.750063755419211)
+    }
+
 
     useMemo(() => {
 
         const prvHourPressMB = daysArray.days[0]?.hour[currHour - 1].pressure_mb
-        const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
+        //const prvHourPressMM = Math.round(prvHourPressMB * 0.750063755419211)
+        const prvHourPressMM = pressureConvertorMBtoMM(prvHourPressMB)
         console.log(`Давление в предыдущем часу ${prvHourPressMM}`)
         setPreviousHourPressure(prvHourPressMM)
 
         const currHourPressMB = daysArray.days[0]?.hour[currHour].pressure_mb
-        const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
+        //const currHourPressMM = Math.round(currHourPressMB * 0.750063755419211)
+        const currHourPressMM = pressureConvertorMBtoMM(currHourPressMB)
         console.log(`Давление на текущий час ${currHourPressMM}`)
         setCurrentHourPressure(currHourPressMM)
 
         const nxtHourPressMB = daysArray.days[0]?.hour[currHour + 1].pressure_mb
-        const nxtHourPressMM = Math.round(nxtHourPressMB * 0.750063755419211)
+        //const nxtHourPressMM = Math.round(nxtHourPressMB * 0.750063755419211)
+        const nxtHourPressMM = pressureConvertorMBtoMM(nxtHourPressMB)
         console.log(`Давление в следующем часу: ${nxtHourPressMM}`)
         setNextHourPressure(nxtHourPressMM)
 
@@ -401,6 +408,28 @@ const App: React.FC<App> = (
     //             return 'давление будет низкое';
     //     }
     // }
+
+    //получение среднего давления на завтра
+
+    // function handleFutureData(day: number){
+    //     if(day > 0){
+    //         return day
+    //     } else {
+    //         return 1
+    //     }
+    // }
+
+    useEffect(() => {
+        // const day = handleFutureData(selectedDay)
+        const selectedDayData = daysArray.days[selectedDay]
+        const dayPressureData = selectedDayData?.hour
+        const dayPressureArr =  dayPressureData?.map((day: any) => day.pressure_mb)
+
+
+        console.log(dayPressureArr)
+
+
+    })
 
     const setStyleColor = (moonPhase: string) => {
         switch (moonPhase) {
