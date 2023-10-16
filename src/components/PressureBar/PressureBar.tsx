@@ -1,23 +1,36 @@
 import React from 'react';
 import './PressureBar.css'
+import {TodayPressureState} from "../TodayPressureState/TodayPressureState";
+import {FuturePressureState} from "../FuturePressureState/FuturePressureState";
 
-interface PressureBarPropTypes{
+interface PressureBarPropTypes {
     currentHourPressure: number,
-    pressureIndexPrv: number,
     pressureVerdictPrv: string,
-    pressureVerdictNext: string
+    pressureVerdictNext: string,
+    selectedDay: any,
+    averagePressure: number,
 }
 
-export const PressureBar:React.FC<PressureBarPropTypes> = ({
-                                                               currentHourPressure,
-                                                               pressureVerdictPrv,
-                                                               pressureVerdictNext
-}) => {
-    return(
+export const PressureBar: React.FC<PressureBarPropTypes> = ({
+                                                                currentHourPressure,
+                                                                pressureVerdictPrv,
+                                                                pressureVerdictNext,
+                                                                selectedDay,
+                                                                averagePressure
+                                                            }) => {
+    return (
         <section className='pressure-bar'>
-            <p className='pressure-bar__paragraph'>Сейчас атмосферное давление: {currentHourPressure}мм/рт.ст</p>
-            <p className='pressure-bar__paragraph'>Сейчас {pressureVerdictPrv}</p>
-            <p className='pressure-bar__paragraph'>В следующий час {pressureVerdictNext}</p>
+            {selectedDay === 0 ?
+                <TodayPressureState
+                    currentHourPressure={currentHourPressure}
+                    pressureVerdictPrv={pressureVerdictPrv}
+                    pressureVerdictNext={pressureVerdictNext}
+                />
+                :
+                <FuturePressureState
+                    averagePressure={averagePressure}
+                />
+            }
         </section>
     )
 }

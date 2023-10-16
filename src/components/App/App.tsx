@@ -50,6 +50,7 @@ const App: React.FC<App> = (
     const [nextHourPressure, setNextHourPressure] = useState<number>(0)
     const [pressureVerdictPrv, setPressureVerdictPrv] = useState('')
     const [pressureVerdictNext, setPressureVerdictNext] = useState('')
+    const [averagePressure, setAveragePressure] = useState<number>(0)
 
     useEffect(() => {
         try {
@@ -191,7 +192,13 @@ const App: React.FC<App> = (
         setPressureVerdictNext(pVerdictPrvNext!)
         console.log(`Индекс следующего давления: ${pressureIndexNext}`)
 
-    },[daysArray])
+    },[
+        daysArray,
+        pressureIndexPrv,
+        pressureIndexNext,
+        pressureVerdictPrv,
+        pressureVerdictNext
+    ])
 
 
 
@@ -427,10 +434,9 @@ const App: React.FC<App> = (
         const dayPressureArr =  dayPressureData?.map((day: any) => pressureConvertorMBtoMM(day.pressure_mb))
         const middlePressureValue = Math.round((dayPressureArr?.reduce((a: number,b: number) => a+b)) / dayPressureArr?.length)
         console.log(`Среднее значения дня№ ${selectedDay} - ${middlePressureValue}`)
-
+        setAveragePressure(middlePressureValue)
 
         console.log(dayPressureArr)
-
 
     })
 
@@ -505,9 +511,10 @@ const App: React.FC<App> = (
             />
             <PressureBar
                 currentHourPressure={currentHourPressure}
-                pressureIndexPrv={pressureIndexPrv}
                 pressureVerdictPrv={pressureVerdictPrv}
                 pressureVerdictNext={pressureVerdictNext}
+                selectedDay={selectedDay}
+                averagePressure={averagePressure}
             />
         </SlideContext.Provider>
     );
