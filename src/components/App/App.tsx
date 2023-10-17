@@ -21,6 +21,7 @@ import {handleHueValue} from "../../utils/handleHueValue";
 import {setRusMonthName} from "../../utils/setRusMonthName";
 import {handleHueParam} from "../../utils/handleHueParam";
 import {setStyleColor} from "../../utils/setStyleColor";
+import {ConditionBar} from "../ConditionBar/ConditionBar";
 
 
 // =======PRESSURE INDEX MAP========
@@ -219,6 +220,7 @@ const App: React.FC<App> = (
                 averagePressure={averagePressure}
                 pressureVerdictAverage={pressureVerdictAverage}
             />
+            <ConditionBar/>
         </SlideContext.Provider>
     );
 }
