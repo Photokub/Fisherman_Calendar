@@ -1,0 +1,15 @@
+.pressure-bar {
+  margin: 15px 0 0 0;
+  padding: 25px 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 20px;
+}
+.pressure-bar__paragraph {
+  margin: 5px 0;
+  text-align: center;
+  font-size: 14px;
+}
+/*# sourceMappingURL=PressureBar.css.map */
