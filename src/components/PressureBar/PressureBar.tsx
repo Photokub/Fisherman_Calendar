@@ -27,6 +27,8 @@ export const PressureBar: React.FC<PressureBarPropTypes> = ({
                     currentHourPressure={currentHourPressure}
                     pressureVerdictPrv={pressureVerdictPrv}
                     pressureVerdictNext={pressureVerdictNext}
+                    averagePressure={averagePressure}
+                    pressureVerdictAverage={pressureVerdictAverage}
                 />
                 :
                 <FuturePressureState
