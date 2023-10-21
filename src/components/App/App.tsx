@@ -3,6 +3,7 @@ import './App.css';
 import {Carousel} from "../Carousel/Carousel";
 import {SlideContext} from '../../context/SlideContext'
 import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
+import {daDataApi} from "../../api/DaDataAPI"
 import {astronomyApi} from "../../api/AstronomyApi";
 import {connect} from 'react-redux';
 import {setDaysArray} from '../../actions/DaysArrayAction'
@@ -20,6 +21,7 @@ import {indexPressureConv} from "../../utils/indexPressureConv";
 import {handleHueValue} from "../../utils/handleHueValue";
 import {setRusMonthName} from "../../utils/setRusMonthName";
 import {handleHueParam} from "../../utils/handleHueParam";
+import {usePosition} from "../../utils/usePosition";
 import {setStyleColor} from "../../utils/setStyleColor";
 import {ConditionBar} from "../ConditionBar/ConditionBar";
 
@@ -196,6 +198,44 @@ const App: React.FC<App> = (
     }
 
     //setStyleColor('Waxing Gibbous', selectedDay, pressureIndexAverage, pressureIndexPrv)
+    // var options = {
+    //     enableHighAccuracy: true,
+    //     timeout: 5000,
+    //     maximumAge: 0,
+    // };
+    //
+    // function success(pos: any) {
+    //     var crd = pos.coords;
+    //
+    //     console.log("Ваше текущее местоположение:");
+    //     console.log(`Широта: ${crd.latitude}`);
+    //     console.log(`Долгота: ${crd.longitude}`);
+    //     console.log(`Плюс-минус ${crd.accuracy} метров.`);
+    // }
+    //
+    // function error(err: any) {
+    //     console.warn(`ERROR(${err.code}): ${err.message}`);
+    // }
+
+    //1 получить геолокацию брацзера
+    //2 передать её в качестве стор
+    //3 сформировать запрос для дадаты по координатам из стора
+    //4 передать запрос в дадату и получить город
+    //5 передать город в стор
+    //6 свормировать квери-запрос погоды по городу из стор
+
+    const position = usePosition();
+    console.log(position)
+
+    // navigator.geolocation.getCurrentPosition(success, error, options);
+
+    useEffect(() => {
+        daDataApi.postDaData()
+            //.then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.log("error", error));
+    })
+
 
     return (
         <SlideContext.Provider value={{
