@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Fisherman_Calendar/static/css/main.6b1ae542.css",
+    "main.js": "/Fisherman_Calendar/static/js/main.23c96602.js",
+    "static/js/787.907f7167.chunk.js": "/Fisherman_Calendar/static/js/787.907f7167.chunk.js",
+    "index.html": "/Fisherman_Calendar/index.html",
+    "main.6b1ae542.css.map": "/Fisherman_Calendar/static/css/main.6b1ae542.css.map",
+    "main.23c96602.js.map": "/Fisherman_Calendar/static/js/main.23c96602.js.map",
+    "787.907f7167.chunk.js.map": "/Fisherman_Calendar/static/js/787.907f7167.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6b1ae542.css",
+    "static/js/main.23c96602.js"
+  ]
+}
