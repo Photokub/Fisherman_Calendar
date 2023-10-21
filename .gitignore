@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #tables
-.xlsx
-.ai
+*.xlsx
+*.ai

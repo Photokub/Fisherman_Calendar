@@ -220,7 +220,7 @@ const App: React.FC<App> = (
                 averagePressure={averagePressure}
                 pressureVerdictAverage={pressureVerdictAverage}
             />
-            <ConditionBar/>
+            {/*<ConditionBar/>*/}
         </SlideContext.Provider>
     );
 }
