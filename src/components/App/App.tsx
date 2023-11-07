@@ -67,7 +67,10 @@ const App: React.FC<App> = (
     const [averagePressure, setAveragePressure] = useState<number>(0)
     const [pressureIndexAverage, setPressureIndexAverage] = useState<number>(0)
     const [pressureVerdictAverage, setPressureVerdictAverage] = useState('')
-    const [cords, setCords] = useState({'lat': 0, 'long': 0})
+    //const [cords, setCords] = useState({'lat': 0, 'long': 0})
+    const [cords, setCords] = useState<any>()
+    const [lat, setLat] = useState<any>()
+    const [long, setLong] = useState<any>()
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
     useEffect(() => {
@@ -225,77 +228,43 @@ const App: React.FC<App> = (
     //5 передать город в стор
     //6 свормировать квери-запрос погоды по городу из стор
 
-    // const position = usePosition();
-    // console.log(position)
-
-    // navigator.geolocation.getCurrentPosition(success, error, options);
-
-    // const browserCords = navigator.geolocation.getCurrentPosition(
-    //     function (position) {
-    //         // const lat = position.coords.latitude;
-    //         // const long = position.coords.longitude
-    //         // console.log(lat, long);
+    // useEffect(() => {
+    //     function geo_success(position: any) {
+    //         let latB = position.coords.latitude;
+    //         let longC = position.coords.longitude;
+    //         setCords({"lat": latB, "long": longC})
     //     }
-    // );
-
-    // let lat
-    // let long
+    //
+    //     function getPosition() {
+    //         return (
+    //             navigator.geolocation.getCurrentPosition(position => {
+    //                 const {latitude, longitude} = position.coords
+    //                 //setCords({"lat": latitude, "long": longitude})
+    //                 //setCords({latitude, longitude})
+    //                 console.log(latitude, longitude)
+    //             })
+    //         )
+    //     }
+    //
+    //     //setCords({lat: 11111111111111, long: 1111111111111})
+    //     console.log(cords)
+    // })
 
     // function geo_success(position: any) {
     //     let latB = position.coords.latitude;
     //     let longC = position.coords.longitude;
-    //     //setCords({"lat": latB, "long": longC})
-    //     //let cords = {lat, long}
-    //     //setCords({lat, long})
-    //     //httpRequest = new XMLHttpRequest()
+    //     setCords({"lat": latB, "long": longC})
     // }
-    //
-    //
-    // navigator.geolocation.getCurrentPosition(geo_success)
 
-
-    useEffect(() => {
-        // function geo_success(position: any) {
-        //     let latB = position.coords.latitude;
-        //     let longC = position.coords.longitude;
-        //     setCords({"lat": latB, "long": longC})
-        // }
-
-        // function getPosition() {
-        //     return (
-        //         navigator.geolocation.getCurrentPosition(position => {
-        //             const {latitude, longitude} = position.coords
-        //             //setCords({"lat": latitude, "long": longitude})
-        //             //setCords({latitude, longitude})
-        //             //console.log(cords)
-        //         })
-        //     )
-        // }
-
-        //setCords({lat: 11111111111111, long: 1111111111111})
-        console.log(cords)
-
+    navigator.geolocation.getCurrentPosition(async position => {
+        const {latitude, longitude} = await position.coords
+        //setCords({'lat': latitude, 'long': longitude})
+        setLat(latitude)
+        setLong(longitude)
+        //перевисать в Redux
+        //setCords({latitude, longitude})
+        console.log(lat, long)
     })
-
-    // const getPosition = () => {
-    //     return new Promise((resolve, reject) => {
-    //         navigator.geolocation.getCurrentPosition(resolve, reject)
-    //     })
-    // }
-    //
-    // function main(){
-    //     getPosition().then(console.log)
-    // }
-    //
-    // main()
-
-
-    // useEffect(() => {
-    //     daDataApi.postDaData()
-    //         //.then(response => response.json())
-    //         .then(result => console.log(result))
-    //         .catch(error => console.log("error", error));
-    // })
 
 
     return (
