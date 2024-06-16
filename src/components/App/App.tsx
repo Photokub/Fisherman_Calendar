@@ -266,25 +266,25 @@ const App: React.FC<App> = (
         console.log(lat, long)
     })
 
-    // useEffect(() => {
-    //     try {
-    //         const cityNameByCords = async () => {
-    //             const handleFullPlaceName = await daDataApi.postDaData();
-    //             console.log(handleFullPlaceName)
-    //         }
-    //         cityNameByCords();
-    //     } catch (e) {
-    //         console.error(e)
-    //     }
-    // },[])
-
-    const handlePlaceInfo = daDataApi.postDaData();
-    handlePlaceInfo
-    .then(resp => console.log(resp))
-
     useEffect(() => {
-        
+        try {
+            const fetchPlaceFullDataByChords = async () => {
+                const handlePlaceInfo = await daDataApi.postDaData();                
+                console.log(handlePlaceInfo)
+            }
+            fetchPlaceFullDataByChords()
+        } catch (e) {
+            console.error(e)
+        }
     },[])
+
+    // const handlePlaceInfo = daDataApi.postDaData();
+    // handlePlaceInfo
+    // .then(resp => console.log(resp))
+
+    // useEffect(() => {
+        
+    // },[])
 
 
 
