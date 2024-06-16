@@ -1,29 +1,29 @@
-import React, {useEffect, useState, useMemo, useCallback} from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import './App.css';
-import {Carousel} from "../Carousel/Carousel";
-import {SlideContext} from '../../context/SlideContext'
-import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
-import {daDataApi} from "../../api/DaDataAPI"
-import {astronomyApi} from "../../api/AstronomyApi";
-import {connect} from 'react-redux';
-import {setDaysArray} from '../../actions/DaysArrayAction'
-import {setSelectedDay} from "../../actions/SelectedDayAction";
+import { Carousel } from "../Carousel/Carousel";
+import { SlideContext } from '../../context/SlideContext'
+import { forecastFeatherApi } from "../../api/ForecastWeatherApi";
+import { daDataApi } from "../../api/DaDataAPI"
+import { astronomyApi } from "../../api/AstronomyApi";
+import { connect } from 'react-redux';
+import { setDaysArray } from '../../actions/DaysArrayAction'
+import { setSelectedDay } from "../../actions/SelectedDayAction";
 import DayStatusBar from "../DayStatusBar/DayStatusBar"
-import {PressureBar} from "../PressureBar/PressureBar";
-import {handlePastPressureVerdict} from "../../utils/handlePastPressureVerdict";
-import {handleNextPressureVerdict} from "../../utils/handleNextPressureVerdict";
-import {handleFuturePressureVerdict} from "../../utils/handleFuturePressureVerdict";
-import {handlePressIndexCurToPast} from "../../utils/handlePressIndexCurToPast";
-import {handlePressIndexCurToNext} from "../../utils/handlePressIndexCurToNext";
-import {handleAveragePressIndex} from "../../utils/handleAveragePressIndex";
-import {dayStatusHandler} from "../../utils/dayStatusHandler";
-import {indexPressureConv} from "../../utils/indexPressureConv";
-import {handleHueValue} from "../../utils/handleHueValue";
-import {setRusMonthName} from "../../utils/setRusMonthName";
-import {handleHueParam} from "../../utils/handleHueParam";
-import {usePosition} from "../../utils/usePosition";
-import {setStyleColor} from "../../utils/setStyleColor";
-import {ConditionBar} from "../ConditionBar/ConditionBar";
+import { PressureBar } from "../PressureBar/PressureBar";
+import { handlePastPressureVerdict } from "../../utils/handlePastPressureVerdict";
+import { handleNextPressureVerdict } from "../../utils/handleNextPressureVerdict";
+import { handleFuturePressureVerdict } from "../../utils/handleFuturePressureVerdict";
+import { handlePressIndexCurToPast } from "../../utils/handlePressIndexCurToPast";
+import { handlePressIndexCurToNext } from "../../utils/handlePressIndexCurToNext";
+import { handleAveragePressIndex } from "../../utils/handleAveragePressIndex";
+import { dayStatusHandler } from "../../utils/dayStatusHandler";
+import { indexPressureConv } from "../../utils/indexPressureConv";
+import { handleHueValue } from "../../utils/handleHueValue";
+import { setRusMonthName } from "../../utils/setRusMonthName";
+import { handleHueParam } from "../../utils/handleHueParam";
+import { usePosition } from "../../utils/usePosition";
+import { setStyleColor } from "../../utils/setStyleColor";
+import { ConditionBar } from "../ConditionBar/ConditionBar";
 
 
 // =======PRESSURE INDEX MAP========
@@ -91,7 +91,7 @@ const App: React.FC<App> = (
         }
     }, [])
 
-// получение текущего времени часа
+    // получение текущего времени часа
     const currDate = new Date
     const currHour = currDate.getHours()
     console.log(`Текущий час ${currHour}`)
@@ -192,7 +192,7 @@ const App: React.FC<App> = (
                 return `hsl(${handleHueValue(0, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
             case 'Waning Gibbous':
                 return `hsl(${handleHueValue(40, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
-            case 'Last Quarter' :
+            case 'Last Quarter':
                 return `hsl(${handleHueValue(120, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`
             case 'Waning Crescent':
                 return `hsl(${handleHueValue(80, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
@@ -257,7 +257,7 @@ const App: React.FC<App> = (
     // }
 
     navigator.geolocation.getCurrentPosition(async position => {
-        const {latitude, longitude} = await position.coords
+        const { latitude, longitude } = await position.coords
         //setCords({'lat': latitude, 'long': longitude})
         setLat(latitude)
         setLong(longitude)
@@ -265,6 +265,30 @@ const App: React.FC<App> = (
         //setCords({latitude, longitude})
         console.log(lat, long)
     })
+
+    // useEffect(() => {
+    //     try {
+    //         const cityNameByCords = async () => {
+    //             const handleFullPlaceName = await daDataApi.postDaData();
+    //             console.log(handleFullPlaceName)
+    //         }
+    //         cityNameByCords();
+    //     } catch (e) {
+    //         console.error(e)
+    //     }
+    // },[])
+
+    const handlePlaceInfo = daDataApi.postDaData();
+    handlePlaceInfo
+    .then(resp => console.log(resp))
+
+    useEffect(() => {
+        
+    },[])
+
+
+
+
 
 
     return (
@@ -311,5 +335,5 @@ const mapDispatchToProps = (dispatch: (arg0: { type: string | number; payload?: 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps,)(App);
-export {App}
+export { App }
 
