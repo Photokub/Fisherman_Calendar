@@ -1,3 +1,6 @@
+//import {lat, long} from "../components/App/App.tsx"
+//import App from "../components/App/App";
+
 class DaDataApi {
     private _headers: any;
     private _adress: any;
@@ -29,7 +32,11 @@ class DaDataApi {
 
 }
 
+// const lat = App.lat; 
+// const long = App.long
+
 const token = '9072717adc99491fe694b2974268697a8c66958c';
+//const query = { lat, long};
 const query = { lat: 55.878, lon: 37.653 };
 
 export const daDataApi = new DaDataApi({

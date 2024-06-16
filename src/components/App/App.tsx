@@ -261,34 +261,32 @@ const App: React.FC<App> = (
         //setCords({'lat': latitude, 'long': longitude})
         setLat(latitude)
         setLong(longitude)
+
         //перевисать в Redux
         //setCords({latitude, longitude})
-        console.log(lat, long)
+        //console.log(lat, long)
     })
+
+     const handleLat = lat;
+     const handleLong = long;
 
     useEffect(() => {
         try {
             const fetchPlaceFullDataByChords = async () => {
-                const handlePlaceInfo = await daDataApi.postDaData();                
-                console.log(handlePlaceInfo)
+                const browserPlaceNameDaData = await daDataApi.postDaData();
+                console.log(browserPlaceNameDaData)
             }
             fetchPlaceFullDataByChords()
         } catch (e) {
             console.error(e)
         }
-    },[])
+    }, [])
 
     // const handlePlaceInfo = daDataApi.postDaData();
     // handlePlaceInfo
     // .then(resp => console.log(resp))
 
     // useEffect(() => {
-        
-    // },[])
-
-
-
-
 
 
     return (
@@ -319,15 +317,19 @@ const App: React.FC<App> = (
     );
 }
 
+
+
 const mapStateToProps = (store: any) => {
     console.log(`Это стор: \n ${store}`)
     return {
         forecastData: store.forecastData,
         daysArray: store.daysArray,
         selectedDay: store.selectedDay,
-        astroData: store.astroData
+        astroData: store.astroData,
+        browserPlaceNameDaData: store.browserPlaceNameDaData
     }
 }
+
 
 const mapDispatchToProps = (dispatch: (arg0: { type: string | number; payload?: object | number; }) => object) => ({
     setDaysArray: (day: object) => dispatch(setDaysArray(day)),
