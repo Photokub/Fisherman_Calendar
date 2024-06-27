@@ -71,24 +71,44 @@ const App: React.FC<App> = (
     const [cords, setCords] = useState<any>()
     const [lat, setLat] = useState<any>()
     const [long, setLong] = useState<any>()
-    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
+    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
+    //const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
 
     useEffect(() => {
-        try {
-            const fetchData = async () => {
-                const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
-                const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
-                console.log(astronomyData)
-                if (!forecastData) {
-                    throw new Error('Не удалось получить данные')
-                }
-                await setForecastData(forecastData.forecast)
-                await setDaysArray(forecastData.forecast.forecastday)
+        navigator.geolocation.getCurrentPosition(async position => {
+            const { latitude, longitude } = await position.coords
+            setLat(latitude)
+            setLong(longitude)
+            console.log(`Координаты браузера: ${lat}, ${long}`)
+
+            //перевисать в Redux
+            if (lat !== undefined && long !== undefined) {
+                setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+                console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
             }
-            fetchData()
+        })
+    })
+
+
+    useEffect(() => {
+        try {
+            if (currentWeatherUrl !== '') {
+                const fetchData = async () => {
+                    const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
+                    const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
+                    console.log(astronomyData)
+                    if (!forecastData) {
+                        throw new Error('Не удалось получить данные')
+                    }
+                    await setForecastData(forecastData.forecast)
+                    await setDaysArray(forecastData.forecast.forecastday)
+                }
+                fetchData()
+            }
+
         } catch (err) {
             console.log(`Ошибка ${err}`)
         }
@@ -211,20 +231,10 @@ const App: React.FC<App> = (
     //5 передать город в стор
     //6 свормировать квери-запрос погоды по городу из стор
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(async position => {
-            const { latitude, longitude } = await position.coords
-            setLat(latitude)
-            setLong(longitude)
-            console.log(`Координаты браузера: ${lat}, ${long}`)
+    //при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось
 
-            //перевисать в Redux
-            if (lat !== undefined && long !== undefined) {
-                setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
-                console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
-            }
-        })
-    })
+
+
 
     // navigator.geolocation.getCurrentPosition(async position => {
     //     const { latitude, longitude } = await position.coords
