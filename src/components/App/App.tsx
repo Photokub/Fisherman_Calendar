@@ -71,7 +71,7 @@ const App: React.FC<App> = (
     const [cords, setCords] = useState<any>()
     const [lat, setLat] = useState<any>()
     const [long, setLong] = useState<any>()
-    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
+    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
