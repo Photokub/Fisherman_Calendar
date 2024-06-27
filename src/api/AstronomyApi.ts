@@ -26,8 +26,14 @@ class AstronomyApi {
     }
 }
 
+const lat = 55.9137812;
+const lon = 37.8065227;
+
+const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${lon}&days=3`;
+
 export const astronomyApi = new AstronomyApi({
-    baseUrl: 'https://weatherapi-com.p.rapidapi.com/astronomy.json?q=Moscow',
+    //baseUrl: 'https://weatherapi-com.p.rapidapi.com/astronomy.json?q=Moscow',
+    baseUrl: url,
     headers: {
         "content-type": "application/json",
         "Accept": "application/json",

@@ -72,6 +72,7 @@ const App: React.FC<App> = (
     const [lat, setLat] = useState<any>()
     const [long, setLong] = useState<any>()
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
+    
 
     useEffect(() => {
         try {
@@ -264,7 +265,7 @@ const App: React.FC<App> = (
 
         //перевисать в Redux
         //setCords({latitude, longitude})
-        //console.log(lat, long)
+        console.log(`Координаты браузера: ${lat}, ${long}`)
     })
 
      //const handleLat = lat;
