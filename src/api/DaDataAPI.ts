@@ -21,12 +21,21 @@ class DaDataApi {
         return res.json();
     }
 
-    postDaData() {
+    // postDaData() {
+    //     return this._request(`${this._adress}`, {
+    //         method: "POST",
+    //         mode: "cors",
+    //         headers: this._headers,
+    //         body: JSON.stringify(query)
+    //     })
+    // }
+
+    postDaData(data: object) {
         return this._request(`${this._adress}`, {
             method: "POST",
             mode: "cors",
             headers: this._headers,
-            body: JSON.stringify(query)
+            body: JSON.stringify(data)
         })
     }
 
@@ -37,7 +46,7 @@ class DaDataApi {
 
 const token = '9072717adc99491fe694b2974268697a8c66958c';
 //const query = { lat, long};
-const query = { lat: 55.878, lon: 37.653 };
+//const query = { lat: 55.878, lon: 37.653 };
 
 export const daDataApi = new DaDataApi({
     baseUrl: 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address',

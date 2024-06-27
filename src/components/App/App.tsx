@@ -267,20 +267,20 @@ const App: React.FC<App> = (
         //console.log(lat, long)
     })
 
-     const handleLat = lat;
-     const handleLong = long;
+     //const handleLat = lat;
+     //const handleLong = long;
 
     useEffect(() => {
         try {
             const fetchPlaceFullDataByChords = async () => {
-                const browserPlaceNameDaData = await daDataApi.postDaData();
+                const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
                 console.log(browserPlaceNameDaData)
             }
             fetchPlaceFullDataByChords()
         } catch (e) {
             console.error(e)
         }
-    }, [])
+    }, [lat, long])
 
     // const handlePlaceInfo = daDataApi.postDaData();
     // handlePlaceInfo
