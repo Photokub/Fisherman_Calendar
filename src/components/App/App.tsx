@@ -76,20 +76,11 @@ const App: React.FC<App> = (
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
 
-
-
-
-    // const generateBaseUrl = () => {
-    //     const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`;
-    //     return url
-    // }
-
-
     useEffect(() => {
         try {
             const fetchData = async () => {
-                const forecastData = await forecastFeatherApi.getForecastData()
-                const astronomyData = await astronomyApi.getAstroData()
+                const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
+                const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                 console.log(astronomyData)
                 if (!forecastData) {
                     throw new Error('Не удалось получить данные')
@@ -101,7 +92,7 @@ const App: React.FC<App> = (
         } catch (err) {
             console.log(`Ошибка ${err}`)
         }
-    }, [])
+    }, [currentWeatherUrl])
 
     // получение текущего времени часа
     const currDate = new Date
@@ -213,26 +204,6 @@ const App: React.FC<App> = (
         }
     }
 
-    //setStyleColor('Waxing Gibbous', selectedDay, pressureIndexAverage, pressureIndexPrv)
-    // var options = {
-    //     enableHighAccuracy: true,
-    //     timeout: 5000,
-    //     maximumAge: 0,
-    // };
-    //
-    // function success(pos: any) {
-    //     var crd = pos.coords;
-    //
-    //     console.log("Ваше текущее местоположение:");
-    //     console.log(`Широта: ${crd.latitude}`);
-    //     console.log(`Долгота: ${crd.longitude}`);
-    //     console.log(`Плюс-минус ${crd.accuracy} метров.`);
-    // }
-    //
-    // function error(err: any) {
-    //     console.warn(`ERROR(${err.code}): ${err.message}`);
-    // }
-
     //1 получить геолокацию брацзера
     //2 передать её в качестве стор
     //3 сформировать запрос для дадаты по координатам из стора
@@ -245,11 +216,13 @@ const App: React.FC<App> = (
             const { latitude, longitude } = await position.coords
             setLat(latitude)
             setLong(longitude)
-    
-            //перевисать в Redux
-            setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
-            console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
             console.log(`Координаты браузера: ${lat}, ${long}`)
+
+            //перевисать в Redux
+            if (lat !== undefined && long !== undefined) {
+                setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+                console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+            }
         })
     })
 

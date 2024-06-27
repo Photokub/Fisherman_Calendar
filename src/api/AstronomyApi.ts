@@ -1,14 +1,18 @@
 class AstronomyApi {
     private _headers: any;
-    private _adress: any;
+    //private _adress: any;
 
     constructor(setting: any) {
-        this._adress = setting.baseUrl;
+        //this._adress = setting.baseUrl;
         this._headers = setting.headers;
     }
 
     _request(url: RequestInfo | URL, options: RequestInit | undefined) {
-        return fetch(url, options).then(this.handleResp)
+        if (url !== undefined) {
+            return fetch(url, options).then(this.handleResp)
+        } else {
+            console.error('URL IS UNDEFINED СЕЙЧАС')
+        }
     }
 
     handleResp(res: any) {
@@ -18,22 +22,29 @@ class AstronomyApi {
         return res.json();
     }
 
-    getAstroData() {
-        return this._request(`${this._adress}`, {
+    // getAstroData() {
+    //     return this._request(`${this._adress}`, {
+    //         method: "GET",
+    //         headers: this._headers,
+    //     })
+    // }
+
+    getAstroData(url: any) {
+        return this._request(url, {
             method: "GET",
             headers: this._headers,
         })
     }
 }
 
-const lat = 55.9137812;
-const lon = 37.8065227;
+//const lat = 55.9137812;
+//const lon = 37.8065227;
 
-const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${lon}&days=3`;
+//const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${lon}&days=3`;
 
 export const astronomyApi = new AstronomyApi({
     //baseUrl: 'https://weatherapi-com.p.rapidapi.com/astronomy.json?q=Moscow',
-    baseUrl: url,
+    //baseUrl: url,
     headers: {
         "content-type": "application/json",
         "Accept": "application/json",
