@@ -71,8 +71,19 @@ const App: React.FC<App> = (
     const [cords, setCords] = useState<any>()
     const [lat, setLat] = useState<any>()
     const [long, setLong] = useState<any>()
+    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
+
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
-    
+
+
+
+
+
+    // const generateBaseUrl = () => {
+    //     const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`;
+    //     return url
+    // }
+
 
     useEffect(() => {
         try {
@@ -229,47 +240,32 @@ const App: React.FC<App> = (
     //5 передать город в стор
     //6 свормировать квери-запрос погоды по городу из стор
 
-    // useEffect(() => {
-    //     function geo_success(position: any) {
-    //         let latB = position.coords.latitude;
-    //         let longC = position.coords.longitude;
-    //         setCords({"lat": latB, "long": longC})
-    //     }
-    //
-    //     function getPosition() {
-    //         return (
-    //             navigator.geolocation.getCurrentPosition(position => {
-    //                 const {latitude, longitude} = position.coords
-    //                 //setCords({"lat": latitude, "long": longitude})
-    //                 //setCords({latitude, longitude})
-    //                 console.log(latitude, longitude)
-    //             })
-    //         )
-    //     }
-    //
-    //     //setCords({lat: 11111111111111, long: 1111111111111})
-    //     console.log(cords)
-    // })
-
-    // function geo_success(position: any) {
-    //     let latB = position.coords.latitude;
-    //     let longC = position.coords.longitude;
-    //     setCords({"lat": latB, "long": longC})
-    // }
-
-    navigator.geolocation.getCurrentPosition(async position => {
-        const { latitude, longitude } = await position.coords
-        //setCords({'lat': latitude, 'long': longitude})
-        setLat(latitude)
-        setLong(longitude)
-
-        //перевисать в Redux
-        //setCords({latitude, longitude})
-        console.log(`Координаты браузера: ${lat}, ${long}`)
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(async position => {
+            const { latitude, longitude } = await position.coords
+            setLat(latitude)
+            setLong(longitude)
+    
+            //перевисать в Redux
+            setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+            console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+            console.log(`Координаты браузера: ${lat}, ${long}`)
+        })
     })
 
-     //const handleLat = lat;
-     //const handleLong = long;
+    // navigator.geolocation.getCurrentPosition(async position => {
+    //     const { latitude, longitude } = await position.coords
+    //     //setCords({'lat': latitude, 'long': longitude})
+    //     setLat(latitude)
+    //     setLong(longitude)
+
+    //     //перевисать в Redux
+    //     //setCords({latitude, longitude})
+    //     console.log(`Координаты браузера: ${lat}, ${long}`)
+    // })
+
+    //const handleLat = lat;
+    //const handleLong = long;
 
     useEffect(() => {
         try {
@@ -282,6 +278,11 @@ const App: React.FC<App> = (
             console.error(e)
         }
     }, [lat, long])
+
+    // useEffect(() => {
+    //     setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+    //     console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+    // }, [lat, long])
 
     // const handlePlaceInfo = daDataApi.postDaData();
     // handlePlaceInfo
