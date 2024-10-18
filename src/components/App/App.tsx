@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import './App.css';
+import {Preloader} from '../Preloader/Preloader'
 import { Carousel } from "../Carousel/Carousel";
 import { SlideContext } from '../../context/SlideContext'
 import { forecastFeatherApi } from "../../api/ForecastWeatherApi";
@@ -278,6 +279,7 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
+            <Preloader/>
             <DayStatusBar
                 dayStatus={dayStatus}
             />
