@@ -327,7 +327,7 @@ const App: React.FC<App> = (
             selectedDay,
         }}>
             {/* <Preloader /> */}
-            {/* {!isLocationDefined  || !isForecastDataFetched &&  <Preloader />} */}
+            {!isLocationDefined  || !isForecastDataFetched &&  <Preloader />}
             <DayStatusBar
                 dayStatus={dayStatus}
             />

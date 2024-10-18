@@ -6,7 +6,7 @@ span {
   border-radius: 0px;
 }
 #preloader-element {
-  margin: 50% auto;
+  margin: 200px auto;
   text-align: center;
 }
 .preloader {
@@ -16,6 +16,7 @@ span {
   position: absolute;
   opacity: 0.8;
   z-index: 2;
+  margin: 0 auto;
 }
 #preloader-element span:nth-child(1) {
   animation: temp 1s 0.05s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
