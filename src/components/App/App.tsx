@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import './App.css';
-import {Preloader} from '../Preloader/Preloader'
+import { Preloader } from '../Preloader/Preloader'
 import { Carousel } from "../Carousel/Carousel";
 import { SlideContext } from '../../context/SlideContext'
 import { forecastFeatherApi } from "../../api/ForecastWeatherApi";
@@ -81,7 +81,7 @@ const App: React.FC<App> = (
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
-            const { latitude, longitude } =  position.coords
+            const { latitude, longitude } = position.coords
             setLat(latitude)
             setLong(longitude)
             console.log(`Координаты браузера: ${lat}, ${long}`)
@@ -115,25 +115,49 @@ const App: React.FC<App> = (
 
 
     useEffect(() => {
-        try {
-            if (currentWeatherUrl !== '') {
-                const fetchData = async () => {
+
+        if (currentWeatherUrl !== '') {
+            const fetchData = async () => {
+                try {
                     const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
                     const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                     console.log(astronomyData)
                     if (!forecastData) {
-                        throw new Error('Не удалось получить данные')
+                        throw new Error('Не удалось получить данные прогноза погоды')
                     }
-                    await setForecastData(forecastData.forecast)
-                    await setDaysArray(forecastData.forecast.forecastday)
+                    setDaysArray(forecastData.forecast.forecastday)
+                } catch (err) {
+                    console.log(`Ошибка ${err}`)
                 }
-                fetchData()
             }
-
-        } catch (err) {
-            console.log(`Ошибка ${err}`)
+            fetchData()
         }
+
+
     }, [currentWeatherUrl])
+
+    // useEffect(() => {
+    //     try {
+    //         if (currentWeatherUrl !== '') {
+    //             const fetchData = async () => {
+    //                 const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
+    //                 const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
+    //                 console.log(astronomyData)
+    //                 if (!forecastData) {
+    //                     throw new Error('Не удалось получить данные прогноза погоды')
+    //                 }
+    //                 //await setForecastData(forecastData.forecast)
+    //                 //await setForecastData(forecastData.forecast)
+    //                 setDaysArray(forecastData.forecast.forecastday)
+    //                 setDaysArray(forecastData.forecast.forecastday)
+    //             }
+    //             fetchData()
+    //         }
+
+    //     } catch (err) {
+    //         console.log(`Ошибка ${err}`)
+    //     }
+    // }, [currentWeatherUrl])
 
     // получение текущего времени часа
     const currDate = new Date
@@ -299,7 +323,7 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
-            {!isLocationDefined && <Preloader/>}
+            {!isLocationDefined && <Preloader />}
             <DayStatusBar
                 dayStatus={dayStatus}
             />
