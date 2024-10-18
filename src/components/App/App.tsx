@@ -74,24 +74,44 @@ const App: React.FC<App> = (
     const [long, setLong] = useState<any>()
     const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
     //const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
+    const [isLocationDefined, setIsLocationDefined] = useState<boolean>(false)
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(async position => {
-            const { latitude, longitude } = await position.coords
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } =  position.coords
             setLat(latitude)
             setLong(longitude)
             console.log(`Координаты браузера: ${lat}, ${long}`)
 
             //перевисать в Redux
             if (lat !== undefined && long !== undefined) {
+                setIsLocationDefined(true)
                 setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
                 console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+            } else {
+                setIsLocationDefined(false)
             }
         })
     })
+
+
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(async position => {
+    //         const { latitude, longitude } = await position.coords
+    //         setLat(latitude)
+    //         setLong(longitude)
+    //         console.log(`Координаты браузера: ${lat}, ${long}`)
+
+    //         //перевисать в Redux
+    //         if (lat !== undefined && long !== undefined) {
+    //             setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+    //             console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+    //         }
+    //     })
+    // })
 
 
     useEffect(() => {
@@ -232,7 +252,7 @@ const App: React.FC<App> = (
     //5 передать город в стор
     //6 свормировать квери-запрос погоды по городу из стор
 
-    //при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось
+    //!!!!!при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось!!!!!!
 
 
 
@@ -279,7 +299,7 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
-            <Preloader/>
+            {!isLocationDefined && <Preloader/>}
             <DayStatusBar
                 dayStatus={dayStatus}
             />
