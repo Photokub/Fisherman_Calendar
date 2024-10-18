@@ -10,21 +10,29 @@ span {
     border-radius: @border-radius;
 }
 
-.border-radius {
-    border-radius: 500px;
+
+#preloader-element {
+    margin: 50% auto;
+    // margin-bottom: 30px;
+    text-align: center;
+    //position: absolute;
 }
 
-#preloader {
-    margin-bottom: 30px;
-    text-align: center;
+.preloader{
+    width: 100%;
+    height: 100%;
     position: absolute;
+    background-color: #FFF;
+    position: absolute;
+    opacity: .8;
+    z-index: 2;
 }
 
 //loop
 .generate-span7(20);
 
 .generate-span7(@n, @i: 1) when (@i =< @n) {
-    #preloader span:nth-child(@{i}) {
+    #preloader-element span:nth-child(@{i}) {
         animation: temp 1s (@i * 0.05s) infinite cubic-bezier(0.005, 0.560, 0.580, 1.590);
         width: (@span-w-h/2);
         height: (@span-w-h/2);

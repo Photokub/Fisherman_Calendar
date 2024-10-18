@@ -54,6 +54,7 @@ const App: React.FC<App> = (
 ) => {
 
     const [forecastData, setForecastData] = useState({})
+    const [isForecastDataFetched, setIsForecastDataFetched] = useState<boolean>(false)
     const [selectedDay, setSelectedDay] = useState(0)
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
@@ -123,9 +124,11 @@ const App: React.FC<App> = (
                     const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                     console.log(astronomyData)
                     if (!forecastData) {
+                        setIsForecastDataFetched (false)
                         throw new Error('Не удалось получить данные прогноза погоды')
                     }
                     setDaysArray(forecastData.forecast.forecastday)
+                    setIsForecastDataFetched (true)
                 } catch (err) {
                     console.log(`Ошибка ${err}`)
                 }
@@ -323,7 +326,8 @@ const App: React.FC<App> = (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
-            {!isLocationDefined && <Preloader />}
+            {/* <Preloader /> */}
+            {/* {!isLocationDefined  || !isForecastDataFetched &&  <Preloader />} */}
             <DayStatusBar
                 dayStatus={dayStatus}
             />

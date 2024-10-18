@@ -5,129 +5,133 @@ span {
   background: #2FAC9B;
   border-radius: 0px;
 }
-.border-radius {
-  border-radius: 500px;
-}
-#preloader {
-  margin-bottom: 30px;
+#preloader-element {
+  margin: 50% auto;
   text-align: center;
-  position: absolute;
 }
-#preloader span:nth-child(1) {
+.preloader {
+  width: 100%;
+  height: 100%;
+  background-color: #FFF;
+  position: absolute;
+  opacity: 0.8;
+  z-index: 2;
+}
+#preloader-element span:nth-child(1) {
   animation: temp 1s 0.05s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(2) {
+#preloader-element span:nth-child(2) {
   animation: temp 1s 0.1s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(3) {
+#preloader-element span:nth-child(3) {
   animation: temp 1s 0.15s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(4) {
+#preloader-element span:nth-child(4) {
   animation: temp 1s 0.2s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(5) {
+#preloader-element span:nth-child(5) {
   animation: temp 1s 0.25s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(6) {
+#preloader-element span:nth-child(6) {
   animation: temp 1s 0.3s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(7) {
+#preloader-element span:nth-child(7) {
   animation: temp 1s 0.35s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(8) {
+#preloader-element span:nth-child(8) {
   animation: temp 1s 0.4s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(9) {
+#preloader-element span:nth-child(9) {
   animation: temp 1s 0.45s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(10) {
+#preloader-element span:nth-child(10) {
   animation: temp 1s 0.5s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(11) {
+#preloader-element span:nth-child(11) {
   animation: temp 1s 0.55s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(12) {
+#preloader-element span:nth-child(12) {
   animation: temp 1s 0.6s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(13) {
+#preloader-element span:nth-child(13) {
   animation: temp 1s 0.65s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(14) {
+#preloader-element span:nth-child(14) {
   animation: temp 1s 0.7s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(15) {
+#preloader-element span:nth-child(15) {
   animation: temp 1s 0.75s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(16) {
+#preloader-element span:nth-child(16) {
   animation: temp 1s 0.8s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(17) {
+#preloader-element span:nth-child(17) {
   animation: temp 1s 0.85s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(18) {
+#preloader-element span:nth-child(18) {
   animation: temp 1s 0.9s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(19) {
+#preloader-element span:nth-child(19) {
   animation: temp 1s 0.95s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
   margin: 0 2px;
 }
-#preloader span:nth-child(20) {
+#preloader-element span:nth-child(20) {
   animation: temp 1s 1s infinite cubic-bezier(0.005, 0.56, 0.58, 1.59);
   width: 7.5px;
   height: 7.5px;
