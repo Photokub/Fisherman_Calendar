@@ -113,12 +113,10 @@ const App: React.FC<App> = (
                     const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                     console.log(astronomyData)
                     if (!forecastData) {
-                        // setIsForecastDataFetched (false)
+                        setIsForecastDataFetched (false)
                         throw new Error('Не удалось получить данные прогноза погоды')
                     }
                     setDaysArray(forecastData.forecast.forecastday)
-                    // setIsForecastDataFetched(true)
-                    // console.log(`состояние isForecastDataFetched = ${isForecastDataFetched}`)
                 } catch (err) {
                     console.log(`Ошибка ${err}`)
                 }
@@ -279,22 +277,6 @@ const App: React.FC<App> = (
     //!!!!!при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось!!!!!!
 
 
-
-
-    // navigator.geolocation.getCurrentPosition(async position => {
-    //     const { latitude, longitude } = await position.coords
-    //     //setCords({'lat': latitude, 'long': longitude})
-    //     setLat(latitude)
-    //     setLong(longitude)
-
-    //     //перевисать в Redux
-    //     //setCords({latitude, longitude})
-    //     console.log(`Координаты браузера: ${lat}, ${long}`)
-    // })
-
-    //const handleLat = lat;
-    //const handleLong = long;
-
     useEffect(() => {
         try {
             const fetchPlaceFullDataByChords = async () => {
@@ -306,17 +288,6 @@ const App: React.FC<App> = (
             console.error(e)
         }
     }, [lat, long])
-
-    // useEffect(() => {
-    //     setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
-    //     console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
-    // }, [lat, long])
-
-    // const handlePlaceInfo = daDataApi.postDaData();
-    // handlePlaceInfo
-    // .then(resp => console.log(resp))
-
-    // useEffect(() => {
 
 
     return (
@@ -348,26 +319,7 @@ const App: React.FC<App> = (
                         pressureVerdictAverage={pressureVerdictAverage}
                     />
             }
-            {/* <DayStatusBar
-                dayStatus={dayStatus}
-            />
-            <Carousel
-                clickForward={clickForward}
-                clickBack={clickBack}
-                setStyleColor={setStyleColor}
-                setRusMonthName={setRusMonthName}
-                disableBackBtn={disableBackBtn}
-                disableForwardBtn={disableForwardBtn}
-            />
-            <PressureBar
-                currentHourPressure={currentHourPressure}
-                pressureVerdictPrv={pressureVerdictPrv}
-                pressureVerdictNext={pressureVerdictNext}
-                selectedDay={selectedDay}
-                averagePressure={averagePressure}
-                pressureVerdictAverage={pressureVerdictAverage}
-            /> */}
-            {/*<ConditionBar/>*/}
+
         </SlideContext.Provider>
     );
 }
