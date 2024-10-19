@@ -1,27 +1,31 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import './App.css';
-import {Carousel} from "../Carousel/Carousel";
-import {SlideContext} from '../../context/SlideContext'
-import {forecastFeatherApi} from "../../api/ForecastWeatherApi";
-import {astronomyApi} from "../../api/AstronomyApi";
-import {connect} from 'react-redux';
-import {setDaysArray} from '../../actions/DaysArrayAction'
-import {setSelectedDay} from "../../actions/SelectedDayAction";
+import { Preloader } from '../Preloader/Preloader'
+import { Carousel } from "../Carousel/Carousel";
+import { SlideContext } from '../../context/SlideContext'
+import { forecastFeatherApi } from "../../api/ForecastWeatherApi";
+import { daDataApi } from "../../api/DaDataAPI"
+import { astronomyApi } from "../../api/AstronomyApi";
+import { connect } from 'react-redux';
+import { setDaysArray } from '../../actions/DaysArrayAction'
+import { setSelectedDay } from "../../actions/SelectedDayAction";
 import DayStatusBar from "../DayStatusBar/DayStatusBar"
-import {PressureBar} from "../PressureBar/PressureBar";
-import {handlePastPressureVerdict} from "../../utils/handlePastPressureVerdict";
-import {handleNextPressureVerdict} from "../../utils/handleNextPressureVerdict";
-import {handleFuturePressureVerdict} from "../../utils/handleFuturePressureVerdict";
-import {handlePressIndexCurToPast} from "../../utils/handlePressIndexCurToPast";
-import {handlePressIndexCurToNext} from "../../utils/handlePressIndexCurToNext";
-import {handleAveragePressIndex} from "../../utils/handleAveragePressIndex";
-import {dayStatusHandler} from "../../utils/dayStatusHandler";
-import {indexPressureConv} from "../../utils/indexPressureConv";
-import {handleHueValue} from "../../utils/handleHueValue";
-import {setRusMonthName} from "../../utils/setRusMonthName";
-import {handleHueParam} from "../../utils/handleHueParam";
-import {setStyleColor} from "../../utils/setStyleColor";
-import {ConditionBar} from "../ConditionBar/ConditionBar";
+import { PressureBar } from "../PressureBar/PressureBar";
+import { handlePastPressureVerdict } from "../../utils/handlePastPressureVerdict";
+import { handleNextPressureVerdict } from "../../utils/handleNextPressureVerdict";
+import { handleFuturePressureVerdict } from "../../utils/handleFuturePressureVerdict";
+import { handlePressIndexCurToPast } from "../../utils/handlePressIndexCurToPast";
+import { handlePressIndexCurToNext } from "../../utils/handlePressIndexCurToNext";
+import { handleAveragePressIndex } from "../../utils/handleAveragePressIndex";
+import { dayStatusHandler } from "../../utils/dayStatusHandler";
+import { indexPressureConv } from "../../utils/indexPressureConv";
+import { handleHueValue } from "../../utils/handleHueValue";
+import { setRusMonthName } from "../../utils/setRusMonthName";
+import { handleHueParam } from "../../utils/handleHueParam";
+import { usePosition } from "../../utils/usePosition";
+import { setStyleColor } from "../../utils/setStyleColor";
+import { ConditionBar } from "../ConditionBar/ConditionBar";
+import { Interface } from '../Interface/Interface';
 
 
 // =======PRESSURE INDEX MAP========
@@ -51,6 +55,7 @@ const App: React.FC<App> = (
 ) => {
 
     const [forecastData, setForecastData] = useState({})
+    const [isForecastDataFetched, setIsForecastDataFetched] = useState<boolean>(false)
     const [selectedDay, setSelectedDay] = useState(0)
     const [disableBackBtn, setDisableBackBtn] = useState(true)
     const [disableForwardBtn, setDisableForwardBtn] = useState(false)
@@ -65,27 +70,94 @@ const App: React.FC<App> = (
     const [averagePressure, setAveragePressure] = useState<number>(0)
     const [pressureIndexAverage, setPressureIndexAverage] = useState<number>(0)
     const [pressureVerdictAverage, setPressureVerdictAverage] = useState('')
+    //const [cords, setCords] = useState({'lat': 0, 'long': 0})
+    const [cords, setCords] = useState<any>()
+    const [lat, setLat] = useState<any>()
+    const [long, setLong] = useState<any>()
+    const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
+    //const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
+    const [isLocationDefined, setIsLocationDefined] = useState<boolean>(false)
+
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
+
     useEffect(() => {
-        try {
+
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords
+            setLat(latitude)
+            setLong(longitude)
+            console.log(`Координаты браузера: ${lat}, ${long}`)
+
+            //перевисать в Redux
+            if (lat !== undefined && long !== undefined) {
+                setIsLocationDefined(true)
+                setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
+                console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+                console.log(`состояние isForecastDataFetched = ${isForecastDataFetched}`)
+
+            } else {
+                setIsLocationDefined(false)
+                console.log('Координаты браузера не определены')
+            }
+        })
+    })
+
+
+    useEffect(() => {
+
+        if (currentWeatherUrl !== '') {
             const fetchData = async () => {
-                const forecastData = await forecastFeatherApi.getForecastData()
-                const astronomyData = await astronomyApi.getAstroData()
-                console.log(astronomyData)
-                if (!forecastData) {
-                    throw new Error('Не удалось получить данные')
+                try {
+                    const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
+                    const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
+                    console.log(astronomyData)
+                    if (!forecastData) {
+                        setIsForecastDataFetched (false)
+                        throw new Error('Не удалось получить данные прогноза погоды')
+                    }
+                    setDaysArray(forecastData.forecast.forecastday)
+                } catch (err) {
+                    console.log(`Ошибка ${err}`)
                 }
-                await setForecastData(forecastData.forecast)
-                await setDaysArray(forecastData.forecast.forecastday)
             }
             fetchData()
-        } catch (err) {
-            console.log(`Ошибка ${err}`)
         }
-    }, [])
 
-// получение текущего времени часа
+    }, [currentWeatherUrl])
+
+    useEffect(() => {
+        if (daysArray.lenght !== 0) {
+            setIsForecastDataFetched(true)
+        } else {
+            setIsForecastDataFetched(false)
+        }
+    }, [daysArray])
+
+    // useEffect(() => {
+    //     try {
+    //         if (currentWeatherUrl !== '') {
+    //             const fetchData = async () => {
+    //                 const forecastData = await forecastFeatherApi.getForecastData(currentWeatherUrl)
+    //                 const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
+    //                 console.log(astronomyData)
+    //                 if (!forecastData) {
+    //                     throw new Error('Не удалось получить данные прогноза погоды')
+    //                 }
+    //                 //await setForecastData(forecastData.forecast)
+    //                 //await setForecastData(forecastData.forecast)
+    //                 setDaysArray(forecastData.forecast.forecastday)
+    //                 setDaysArray(forecastData.forecast.forecastday)
+    //             }
+    //             fetchData()
+    //         }
+
+    //     } catch (err) {
+    //         console.log(`Ошибка ${err}`)
+    //     }
+    // }, [currentWeatherUrl])
+
+    // получение текущего времени часа
     const currDate = new Date
     const currHour = currDate.getHours()
     console.log(`Текущий час ${currHour}`)
@@ -186,7 +258,7 @@ const App: React.FC<App> = (
                 return `hsl(${handleHueValue(0, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
             case 'Waning Gibbous':
                 return `hsl(${handleHueValue(40, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
-            case 'Last Quarter' :
+            case 'Last Quarter':
                 return `hsl(${handleHueValue(120, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`
             case 'Waning Crescent':
                 return `hsl(${handleHueValue(80, indexPressureConv(handleHueParam(selectedDay, pressureIndexAverage, pressureIndexPrv))!)}, 90%, 45%)`;
@@ -195,35 +267,64 @@ const App: React.FC<App> = (
         }
     }
 
-    //setStyleColor('Waxing Gibbous', selectedDay, pressureIndexAverage, pressureIndexPrv)
+    //1 получить геолокацию брацзера
+    //2 передать её в качестве стор
+    //3 сформировать запрос для дадаты по координатам из стора
+    //4 передать запрос в дадату и получить город
+    //5 передать город в стор
+    //6 свормировать квери-запрос погоды по городу из стор
+
+    //!!!!!при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось!!!!!!
+
+
+    useEffect(() => {
+        try {
+            const fetchPlaceFullDataByChords = async () => {
+                const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
+                console.log(browserPlaceNameDaData)
+            }
+            fetchPlaceFullDataByChords()
+        } catch (e) {
+            console.error(e)
+        }
+    }, [lat, long])
+
 
     return (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
-            <DayStatusBar
-                dayStatus={dayStatus}
-            />
-            <Carousel
-                clickForward={clickForward}
-                clickBack={clickBack}
-                setStyleColor={setStyleColor}
-                setRusMonthName={setRusMonthName}
-                disableBackBtn={disableBackBtn}
-                disableForwardBtn={disableForwardBtn}
-            />
-            <PressureBar
-                currentHourPressure={currentHourPressure}
-                pressureVerdictPrv={pressureVerdictPrv}
-                pressureVerdictNext={pressureVerdictNext}
-                selectedDay={selectedDay}
-                averagePressure={averagePressure}
-                pressureVerdictAverage={pressureVerdictAverage}
-            />
-            {/*<ConditionBar/>*/}
+            {/* <Preloader /> */}
+            {
+                !isLocationDefined
+                    && !isForecastDataFetched
+                    && pressureIndexPrv === 0 || Number.isNaN(pressureIndexPrv)
+                    && pressureIndexNext === 0 || Number.isNaN(pressureIndexNext)
+                    && currentHourPressure === 0 || Number.isNaN(currentHourPressure)
+                    ?
+                    <Preloader /> :
+                    <Interface
+                        dayStatus={dayStatus}
+                        clickForward={clickForward}
+                        clickBack={clickBack}
+                        setStyleColor={setStyleColor}
+                        setRusMonthName={setRusMonthName}
+                        disableBackBtn={disableBackBtn}
+                        disableForwardBtn={disableForwardBtn}
+                        currentHourPressure={currentHourPressure}
+                        pressureVerdictPrv={pressureVerdictPrv}
+                        pressureVerdictNext={pressureVerdictNext}
+                        selectedDay={selectedDay}
+                        averagePressure={averagePressure}
+                        pressureVerdictAverage={pressureVerdictAverage}
+                    />
+            }
+
         </SlideContext.Provider>
     );
 }
+
+
 
 const mapStateToProps = (store: any) => {
     console.log(`Это стор: \n ${store}`)
@@ -231,9 +332,11 @@ const mapStateToProps = (store: any) => {
         forecastData: store.forecastData,
         daysArray: store.daysArray,
         selectedDay: store.selectedDay,
-        astroData: store.astroData
+        astroData: store.astroData,
+        browserPlaceNameDaData: store.browserPlaceNameDaData
     }
 }
+
 
 const mapDispatchToProps = (dispatch: (arg0: { type: string | number; payload?: object | number; }) => object) => ({
     setDaysArray: (day: object) => dispatch(setDaysArray(day)),
@@ -241,5 +344,5 @@ const mapDispatchToProps = (dispatch: (arg0: { type: string | number; payload?: 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps,)(App);
-export {App}
+export { App }
 
