@@ -327,9 +327,9 @@ const App: React.FC<App> = (
             {
                 !isLocationDefined
                     && !isForecastDataFetched
-                    && pressureIndexPrv !== 0 || NaN
-                    && pressureIndexNext !== 0 || NaN
-                    && currentHourPressure !== 0 || NaN
+                    && pressureIndexPrv === 0 || Number.isNaN(pressureIndexPrv)
+                    && pressureIndexNext === 0 || Number.isNaN(pressureIndexNext)
+                    && currentHourPressure === 0 || Number.isNaN(currentHourPressure)
                     ?
                     <Preloader /> :
                     <Interface
