@@ -25,6 +25,7 @@ import { handleHueParam } from "../../utils/handleHueParam";
 import { usePosition } from "../../utils/usePosition";
 import { setStyleColor } from "../../utils/setStyleColor";
 import { ConditionBar } from "../ConditionBar/ConditionBar";
+import { Interface }  from '../Interface/Interface';
 
 
 // =======PRESSURE INDEX MAP========
@@ -81,6 +82,7 @@ const App: React.FC<App> = (
 
 
     useEffect(() => {
+        
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords
             setLat(latitude)
@@ -92,27 +94,14 @@ const App: React.FC<App> = (
                 setIsLocationDefined(true)
                 setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
                 console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
+                console.log(`состояние isForecastDataFetched = ${isForecastDataFetched}`)
+
             } else {
                 setIsLocationDefined(false)
+                console.log('Координаты браузера не определены')
             }
         })
     })
-
-
-    // useEffect(() => {
-    //     navigator.geolocation.getCurrentPosition(async position => {
-    //         const { latitude, longitude } = await position.coords
-    //         setLat(latitude)
-    //         setLong(longitude)
-    //         console.log(`Координаты браузера: ${lat}, ${long}`)
-
-    //         //перевисать в Redux
-    //         if (lat !== undefined && long !== undefined) {
-    //             setCurrentWeathUrl(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${lat}%2C${long}&days=3`)
-    //             console.log(`Текущая ссылка с координатами: ${currentWeatherUrl}`)
-    //         }
-    //     })
-    // })
 
 
     useEffect(() => {
@@ -124,11 +113,12 @@ const App: React.FC<App> = (
                     const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                     console.log(astronomyData)
                     if (!forecastData) {
-                        setIsForecastDataFetched (false)
+                        // setIsForecastDataFetched (false)
                         throw new Error('Не удалось получить данные прогноза погоды')
                     }
                     setDaysArray(forecastData.forecast.forecastday)
-                    setIsForecastDataFetched (true)
+                    // setIsForecastDataFetched(true)
+                    // console.log(`состояние isForecastDataFetched = ${isForecastDataFetched}`)
                 } catch (err) {
                     console.log(`Ошибка ${err}`)
                 }
@@ -136,8 +126,15 @@ const App: React.FC<App> = (
             fetchData()
         }
 
-
     }, [currentWeatherUrl])
+
+    useEffect(()=>{
+        if(daysArray.lenght !== 0){
+            setIsForecastDataFetched(true)
+        } else {
+            setIsForecastDataFetched(false)
+        }
+    },[daysArray])
 
     // useEffect(() => {
     //     try {
@@ -328,7 +325,22 @@ const App: React.FC<App> = (
         }}>
             {/* <Preloader /> */}
             {!isLocationDefined  || !isForecastDataFetched &&  <Preloader />}
-            <DayStatusBar
+            <Interface
+                dayStatus={dayStatus}
+                clickForward={clickForward}
+                clickBack={clickBack}
+                setStyleColor={setStyleColor}
+                setRusMonthName={setRusMonthName}
+                disableBackBtn={disableBackBtn}
+                disableForwardBtn={disableForwardBtn}
+                currentHourPressure={currentHourPressure}
+                pressureVerdictPrv={pressureVerdictPrv}
+                pressureVerdictNext={pressureVerdictNext}
+                selectedDay={selectedDay}
+                averagePressure={averagePressure}
+                pressureVerdictAverage={pressureVerdictAverage}
+            />
+            {/* <DayStatusBar
                 dayStatus={dayStatus}
             />
             <Carousel
@@ -346,7 +358,7 @@ const App: React.FC<App> = (
                 selectedDay={selectedDay}
                 averagePressure={averagePressure}
                 pressureVerdictAverage={pressureVerdictAverage}
-            />
+            /> */}
             {/*<ConditionBar/>*/}
         </SlideContext.Provider>
     );
