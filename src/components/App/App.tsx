@@ -25,7 +25,7 @@ import { handleHueParam } from "../../utils/handleHueParam";
 import { usePosition } from "../../utils/usePosition";
 import { setStyleColor } from "../../utils/setStyleColor";
 import { ConditionBar } from "../ConditionBar/ConditionBar";
-import { Interface }  from '../Interface/Interface';
+import { Interface } from '../Interface/Interface';
 
 
 // =======PRESSURE INDEX MAP========
@@ -82,7 +82,7 @@ const App: React.FC<App> = (
 
 
     useEffect(() => {
-        
+
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords
             setLat(latitude)
@@ -128,13 +128,13 @@ const App: React.FC<App> = (
 
     }, [currentWeatherUrl])
 
-    useEffect(()=>{
-        if(daysArray.lenght !== 0){
+    useEffect(() => {
+        if (daysArray.lenght !== 0) {
             setIsForecastDataFetched(true)
         } else {
             setIsForecastDataFetched(false)
         }
-    },[daysArray])
+    }, [daysArray])
 
     // useEffect(() => {
     //     try {
@@ -324,22 +324,30 @@ const App: React.FC<App> = (
             selectedDay,
         }}>
             {/* <Preloader /> */}
-            {!isLocationDefined  || !isForecastDataFetched &&  <Preloader />}
-            <Interface
-                dayStatus={dayStatus}
-                clickForward={clickForward}
-                clickBack={clickBack}
-                setStyleColor={setStyleColor}
-                setRusMonthName={setRusMonthName}
-                disableBackBtn={disableBackBtn}
-                disableForwardBtn={disableForwardBtn}
-                currentHourPressure={currentHourPressure}
-                pressureVerdictPrv={pressureVerdictPrv}
-                pressureVerdictNext={pressureVerdictNext}
-                selectedDay={selectedDay}
-                averagePressure={averagePressure}
-                pressureVerdictAverage={pressureVerdictAverage}
-            />
+            {
+                !isLocationDefined
+                    && !isForecastDataFetched
+                    && pressureIndexPrv !== 0 || NaN
+                    && pressureIndexNext !== 0 || NaN
+                    && currentHourPressure !== 0 || NaN
+                    ?
+                    <Preloader /> :
+                    <Interface
+                        dayStatus={dayStatus}
+                        clickForward={clickForward}
+                        clickBack={clickBack}
+                        setStyleColor={setStyleColor}
+                        setRusMonthName={setRusMonthName}
+                        disableBackBtn={disableBackBtn}
+                        disableForwardBtn={disableForwardBtn}
+                        currentHourPressure={currentHourPressure}
+                        pressureVerdictPrv={pressureVerdictPrv}
+                        pressureVerdictNext={pressureVerdictNext}
+                        selectedDay={selectedDay}
+                        averagePressure={averagePressure}
+                        pressureVerdictAverage={pressureVerdictAverage}
+                    />
+            }
             {/* <DayStatusBar
                 dayStatus={dayStatus}
             />
