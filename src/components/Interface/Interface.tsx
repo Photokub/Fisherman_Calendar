@@ -3,6 +3,7 @@ import './Interface.css'
 import DayStatusBar from "../DayStatusBar/DayStatusBar";
 import { Carousel } from "../Carousel/Carousel";
 import { PressureBar } from "../PressureBar/PressureBar";
+import { LocationBar } from "../LocationBar/LocationBar";
 
 interface InterfacePropTypes {
     dayStatus: any,
@@ -56,6 +57,7 @@ export const Interface: React.FC<InterfacePropTypes> = ({
                 averagePressure={averagePressure}
                 pressureVerdictAverage={pressureVerdictAverage}
             />
+            <LocationBar />
         </div>
     )
 }

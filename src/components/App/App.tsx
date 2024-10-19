@@ -77,6 +77,7 @@ const App: React.FC<App> = (
     const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
     //const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
     const [isLocationDefined, setIsLocationDefined] = useState<boolean>(false)
+    const [browserLocationName, setBrowserLocationName] = useState<any>()
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
@@ -113,7 +114,7 @@ const App: React.FC<App> = (
                     const astronomyData = await astronomyApi.getAstroData(currentWeatherUrl)
                     console.log(astronomyData)
                     if (!forecastData) {
-                        setIsForecastDataFetched (false)
+                        setIsForecastDataFetched(false)
                         throw new Error('Не удалось получить данные прогноза погоды')
                     }
                     setDaysArray(forecastData.forecast.forecastday)
@@ -277,17 +278,40 @@ const App: React.FC<App> = (
     //!!!!!при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось!!!!!!
 
 
+    // useEffect(() => {
+    //     try {
+    //         const fetchPlaceFullDataByChords = async () => {
+    //             const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
+    //             console.log(`Значение browserPlaceNameDaData: ${browserPlaceNameDaData}`)
+    //         }
+    //         fetchPlaceFullDataByChords()
+    //     } catch (e) {
+    //         console.error(e)
+    //     }
+    // }, [lat, long])
+
     useEffect(() => {
-        try {
+        if (lat !== undefined && long !== undefined) {
             const fetchPlaceFullDataByChords = async () => {
-                const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
-                console.log(browserPlaceNameDaData)
+
+                try {
+                    const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
+                    console.log(`Значение browserPlaceNameDaData: ${browserPlaceNameDaData}`)
+                    setBrowserLocationName(browserPlaceNameDaData)
+                    console.log(`lat ${lat}`)
+                    console.log(`long ${long}`)
+                    console.log(`Значение browserLocationName: ${browserLocationName}`)
+                } catch (e) {
+                    console.error(e)
+                }
+
             }
             fetchPlaceFullDataByChords()
-        } catch (e) {
-            console.error(e)
         }
     }, [lat, long])
+
+    console.log(`lat ${lat}`)
+    console.log(`long ${long}`)
 
 
     return (
