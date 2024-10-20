@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Fisherman_Calendar/static/css/main.6b2d489d.css",
-    "main.js": "/Fisherman_Calendar/static/js/main.e0871a19.js",
+    "main.css": "/Fisherman_Calendar/static/css/main.89cd495b.css",
+    "main.js": "/Fisherman_Calendar/static/js/main.88793d8c.js",
     "static/js/787.907f7167.chunk.js": "/Fisherman_Calendar/static/js/787.907f7167.chunk.js",
     "index.html": "/Fisherman_Calendar/index.html",
-    "main.6b2d489d.css.map": "/Fisherman_Calendar/static/css/main.6b2d489d.css.map",
-    "main.e0871a19.js.map": "/Fisherman_Calendar/static/js/main.e0871a19.js.map",
+    "main.89cd495b.css.map": "/Fisherman_Calendar/static/css/main.89cd495b.css.map",
+    "main.88793d8c.js.map": "/Fisherman_Calendar/static/js/main.88793d8c.js.map",
     "787.907f7167.chunk.js.map": "/Fisherman_Calendar/static/js/787.907f7167.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6b2d489d.css",
-    "static/js/main.e0871a19.js"
+    "static/css/main.89cd495b.css",
+    "static/js/main.88793d8c.js"
   ]
 }
