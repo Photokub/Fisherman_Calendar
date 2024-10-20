@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 import './Interface.css'
 import DayStatusBar from "../DayStatusBar/DayStatusBar";
 import { Carousel } from "../Carousel/Carousel";
@@ -18,7 +18,8 @@ interface InterfacePropTypes {
     pressureVerdictNext: string,
     selectedDay: any,
     averagePressure: number,
-    pressureVerdictAverage: any
+    pressureVerdictAverage: any,
+    browserLocationName: string
 }
 
 export const Interface: React.FC<InterfacePropTypes> = ({
@@ -34,7 +35,8 @@ export const Interface: React.FC<InterfacePropTypes> = ({
     pressureVerdictNext,
     selectedDay,
     averagePressure,
-    pressureVerdictAverage
+    pressureVerdictAverage,
+    browserLocationName
 }) => {
     return (
         <div className="interface">
@@ -57,7 +59,9 @@ export const Interface: React.FC<InterfacePropTypes> = ({
                 averagePressure={averagePressure}
                 pressureVerdictAverage={pressureVerdictAverage}
             />
-            <LocationBar />
+            <LocationBar
+                browserLocationName={browserLocationName}
+            />
         </div>
     )
 }

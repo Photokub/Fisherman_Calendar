@@ -77,7 +77,7 @@ const App: React.FC<App> = (
     const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('')
     //const [currentWeatherUrl, setCurrentWeathUrl] = useState<any>('https://weatherapi-com.p.rapidapi.com/forecast.json?q=55.9138144%2C37.8065067&days=3')
     const [isLocationDefined, setIsLocationDefined] = useState<boolean>(false)
-    const [browserLocationName, setBrowserLocationName] = useState<any>()
+    const [browserLocationName, setBrowserLocationName] = useState<string>('')
 
     const arrFromDaysArr = Array.from(Object.values(daysArray.days))
 
@@ -278,29 +278,16 @@ const App: React.FC<App> = (
     //!!!!!при одинаковом поведении давления за прошлый час и за текущий - написать в. текущем часу что давление не изменилось!!!!!!
 
 
-    // useEffect(() => {
-    //     try {
-    //         const fetchPlaceFullDataByChords = async () => {
-    //             const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
-    //             console.log(`Значение browserPlaceNameDaData: ${browserPlaceNameDaData}`)
-    //         }
-    //         fetchPlaceFullDataByChords()
-    //     } catch (e) {
-    //         console.error(e)
-    //     }
-    // }, [lat, long])
-
     useEffect(() => {
         if (lat !== undefined && long !== undefined) {
             const fetchPlaceFullDataByChords = async () => {
 
                 try {
-                    const browserPlaceNameDaData = await daDataApi.postDaData({ lat: lat, lon: long });
-                    console.log(`Значение browserPlaceNameDaData: ${browserPlaceNameDaData}`)
-                    setBrowserLocationName(browserPlaceNameDaData)
-                    console.log(`lat ${lat}`)
-                    console.log(`long ${long}`)
-                    console.log(`Значение browserLocationName: ${browserLocationName}`)
+                    const browserLocationSuggestionsDaData = await daDataApi.postDaData({ lat: lat, lon: long });
+                    console.log(browserLocationSuggestionsDaData)
+                    const nearestSuggestion = await browserLocationSuggestionsDaData.suggestions[0].value
+                    const interfacePlaceName = (nearestSuggestion.split(", ", 2)).join(", ")
+                    setBrowserLocationName(interfacePlaceName)
                 } catch (e) {
                     console.error(e)
                 }
@@ -310,21 +297,17 @@ const App: React.FC<App> = (
         }
     }, [lat, long])
 
-    console.log(`lat ${lat}`)
-    console.log(`long ${long}`)
-
-
     return (
         <SlideContext.Provider value={{
             selectedDay,
         }}>
-            {/* <Preloader /> */}
             {
                 !isLocationDefined
                     && !isForecastDataFetched
                     && pressureIndexPrv === 0 || Number.isNaN(pressureIndexPrv)
                     && pressureIndexNext === 0 || Number.isNaN(pressureIndexNext)
                     && currentHourPressure === 0 || Number.isNaN(currentHourPressure)
+                    && browserLocationName === ""
                     ?
                     <Preloader /> :
                     <Interface
@@ -341,6 +324,7 @@ const App: React.FC<App> = (
                         selectedDay={selectedDay}
                         averagePressure={averagePressure}
                         pressureVerdictAverage={pressureVerdictAverage}
+                        browserLocationName={browserLocationName}
                     />
             }
 
